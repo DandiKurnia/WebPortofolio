@@ -2,6 +2,7 @@ import Navbar from "@/Components/Navbar";
 import { Link, Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+import Card from "./Profile/Partials/Card";
 
 // Typing
 const TypingAnimation = ({ text = "", typingSpeed = 100 }) => {
@@ -37,7 +38,7 @@ const TypingAnimation = ({ text = "", typingSpeed = 100 }) => {
     }, []);
 
     return (
-        <span>
+        <span className="text-sm md:text-xl">
             {displayedText}
             <span
                 className={`ml-[1px] cursor ${
@@ -62,12 +63,12 @@ const InfiniteScrollMarquee = ({ images }) => {
                     {images.map((image, index) => (
                         <div
                             key={index}
-                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group"
+                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center"
                         >
-                            <div className="flex justify-center gap-3 content-center">
+                            <div className="flex items-center md:items-stretch gap-3">
                                 <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center">
                                     <img
-                                        className="w-[1.3rem] h-[1.2rem] md:h-auto md:w-[1.5rem] xl:w-[1.95rem]"
+                                        className="w-[1.4rem] md:h-auto md:w-[1.5rem] xl:w-[1.95rem]"
                                         src={image.src}
                                         alt={`Image ${index + 1}`}
                                     />
@@ -90,12 +91,12 @@ const InfiniteScrollMarquee = ({ images }) => {
                     {images.map((image, index) => (
                         <div
                             key={index}
-                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group"
+                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center"
                         >
-                            <div className="flex justify-center gap-3 content-center">
+                            <div className="flex items-center md:items-stretch gap-3">
                                 <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center">
                                     <img
-                                        className="w-[1.3rem] h-[1.2rem] md:h-auto md:w-[1.5rem] xl:w-[1.95rem]"
+                                        className="w-[1.4rem] md:h-auto md:w-[1.5rem] xl:w-[1.95rem]"
                                         src={image.src}
                                         alt={`Image ${index + 1}`}
                                     />
@@ -190,7 +191,7 @@ export default function Welcome({}) {
                     <Navbar />
 
                     {/* PAGE 1 */}
-                    <div className="py-12 grid grid-rows-2 md:grid-rows-none md:grid-cols-2 xl:grid-cols-3 items-start md:items-center">
+                    <div className="py-8 grid grid-rows-2 md:grid-rows-none md:grid-cols-2 xl:grid-cols-3 items-start md:items-center">
                         <div className="xl:col-span-2">
                             <div className="flex items-center space-x-4 dark:text-white-100">
                                 <span className="w-[3rem] *:md:w-[5rem] h-[2px] bg-green-1000"></span>
@@ -198,34 +199,38 @@ export default function Welcome({}) {
                                     Hello, I'm
                                 </h1>
                             </div>
-                            <h1 className="font-bold text-4xl md:text-6xl xl:text-8xl mb-4 md:mb-5 text-gradient">
+                            <h1 className="font-bold text-5xl md:text-6xl xl:text-8xl mb-4 md:mb-5 text-gradient">
                                 Dandi Kurnia <br /> Putra
                             </h1>
                             <div className="flex items-center space-x-4 mb-5 md:mb-10">
-                                <div className="w-10 h-10 bg-green-1000 rounded-md"></div>
+                                <div className="w-7 h-7 md:w-10 md:h-10 bg-green-1000 rounded-md"></div>
                                 <span className="w-[5px] h-[5px] bg-green-1000 rounded-full"></span>
                                 <h1 className="text-gray-300 font-semibold">
                                     <TypingAnimation text="Available for freelancing" />
                                 </h1>
                             </div>
                             <div className="flex gap-5">
-                                <Link className="group px-2 py-2 md:px-4 bg-green-1000 dark:text-gray-1000 rounded-md hover:opacity-90">
+                                <Link className="group flex content-center px-2 py-2 md:px-4 bg-green-1000 dark:text-gray-1000 rounded-md hover:opacity-90">
                                     <div className="flex items-center gap-3">
-                                        <p className="font-bold">Say Hello</p>
+                                        <p className="font-bold text-sm md:text-base">
+                                            Say Hello
+                                        </p>
                                         <IoIosArrowForward className="transition-transform transform group-hover:translate-x-1" />
                                     </div>
                                 </Link>
 
-                                <Link className="group py-2 px-4 dark:text-gray-300 dark:bg-gray-2000 rounded-md hover:opacity-90">
+                                <Link className="group flex content-center py-2 px-4 dark:text-gray-300 dark:bg-gray-2000 rounded-md hover:opacity-90">
                                     <div className="flex items-center gap-3">
-                                        <p className="font-bold">Scroll Down</p>
+                                        <p className="font-bold text-sm md:text-base">
+                                            Scroll Down
+                                        </p>
                                         <IoIosArrowDown className="transition-transform transform group-hover:translate-y-1" />
                                     </div>
                                 </Link>
                             </div>
                         </div>
 
-                        <div className="w-full px-4 py-5 min-[390px]:px-10 md:w-[80%] lg:w-full lg:mx-0 md:ml-auto md:px-0 md:py-0">
+                        <div className="w-full px-4 xs:px-10 md:w-[80%] lg:w-full lg:mx-0 md:ml-auto md:px-0 md:py-0">
                             <div className="grid grid-cols-2 gap-y-3 md:gap-x-0 md:gap-y-6 sm:gap-x-3 justify-items-center">
                                 {/* Top */}
                                 <div className="hidden md:block w-32 h-20 lg:w-44 lg:h-32 bg-green-1000 rounded-b-xl"></div>
@@ -248,8 +253,8 @@ export default function Welcome({}) {
                     {/* END PAGE 1 */}
 
                     {/* PAGE 2 */}
-                    <div className="">
-                        <h1 className="font-bold text-xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient">
+                    <div className="py-4 xs:py-6 md:py-8">
+                        <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient">
                             Essential skills I use
                         </h1>
                         <p className="font-medium text-white-100 text-md mb-5 md:mb-7 xl:mb-10">
@@ -262,7 +267,31 @@ export default function Welcome({}) {
                             <InfiniteScrollMarquee images={images} />
                         </div>
                     </div>
-                    {/* END PAGE2 */}
+                    {/* END PAGE 2 */}
+
+                    {/* PAGE 3 */}
+                    <div className="xs:py-6 md:py-8">
+                        <div className="block md:flex md:justify-between md:items-center mb-6 md:mb-0">
+                            <h1 className="font-black mb-2 md:mb-0 text-2xl md:text-3xl xl:text-4xl text-gradient">
+                                My portofolio highlights
+                            </h1>
+                            <Link className="group inline-flex px-1 py-1 md:px-4 md:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
+                                <div className="flex items-center gap-3">
+                                    <p className="font-bold text-sm md:text-base">
+                                        View all work
+                                    </p>
+                                    <IoIosArrowForward className="transition-transform transform group-hover:translate-x-1" />
+                                </div>
+                            </Link>
+                        </div>
+
+                        {/* <Card /> */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xs:py-6 md:py-8">
+                            <Card />
+                            <Card />
+                        </div>
+                    </div>
+                    {/* END PAGE 3 */}
                 </div>
             </div>
         </>

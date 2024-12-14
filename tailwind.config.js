@@ -28,6 +28,9 @@ export default {
                     1000: "#DDF663",
                 },
             },
+            screens: {
+                xs: "390px",
+            },
         },
     },
 
