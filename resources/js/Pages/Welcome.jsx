@@ -128,17 +128,17 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
                 <div
                     className={`${
                         reverse ? "animate-marquee-reverse" : "animate-marquee"
-                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[160%] md:w-[145%] xl:w-[121%]`}
+                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[200%] md:w-[160%] xl:w-[121%]`}
                 >
                     {" "}
                     {imageCertifs.map((image, index) => (
                         <div
                             key={index}
-                            className=" p-1 xl:p-3 group flex content-center"
+                            className=" p-2 md:p-3 group flex content-center"
                         >
                             <div className="flex items-center md:items-stretch gap-3">
                                 <img
-                                    className="w-[9.375rem] md:h-auto md:w-[15.625rem] xl:w-[21.875rem] rounded-md"
+                                    className="w-[12.5rem] md:h-auto md:w-[15.625rem] xl:w-[22.875rem] rounded-md"
                                     src={image.src}
                                     alt={`Image ${index + 1}`}
                                 />
@@ -152,16 +152,16 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
                 <div
                     className={`${
                         reverse ? "animate-marquee-reverse" : "animate-marquee"
-                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[160%] md:w-[145%] xl:w-[121%]`}
+                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[200%] md:w-[160%] xl:w-[121%]`}
                 >
                     {imageCertifs.map((image, index) => (
                         <div
                             key={index}
-                            className=" p-1 xl:p-3 group flex content-center"
+                            className=" p-2 md:p-3 group flex content-center"
                         >
                             <div className="flex items-center md:items-stretch gap-3">
                                 <img
-                                    className="w-[9.375rem] md:h-auto md:w-[15.625rem] xl:w-[21.875rem] rounded-md"
+                                    className="w-[12.5rem] md:h-auto md:w-[15.625rem] xl:w-[22.875rem] rounded-md"
                                     src={image.src}
                                     alt={`Image ${index + 1}`}
                                 />
@@ -257,9 +257,9 @@ export default function Welcome({}) {
 
     return (
         <>
-            <Head title="Welcome" />
-            <div className="w-full bg-white-100 dark:bg-gray-1000">
-                <div className="max-w-7xl mx-auto px-8 sm:px-6 min-h-screen">
+            <Head title="MyPortofolio" />
+            <div className="min-h-screen pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-1000">
+                <div className="max-w-7xl mx-auto px-8 sm:px-6 min-h-screen flex flex-col">
                     <Navbar />
 
                     {/* PAGE 1 */}
@@ -324,7 +324,7 @@ export default function Welcome({}) {
                     {/* END PAGE 1 */}
 
                     {/* PAGE 2 */}
-                    <div className="py-4 xs:py-6 md:py-8">
+                    <div className="xs:mb-6 md:mb-8">
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient">
                             Essential skills I use
                         </h1>
@@ -341,8 +341,8 @@ export default function Welcome({}) {
                     {/* END PAGE 2 */}
 
                     {/* PAGE 3 */}
-                    <div className="xs:py-6 md:py-8">
-                        <div className="block md:flex md:justify-between md:items-center mb-6 md:mb-0">
+                    <div className="xs:mb-6 md:mb-8">
+                        <div className="block md:flex md:justify-between md:items-center mb-2 md:mb-0">
                             <h1 className="font-black mb-2 md:mb-0 text-2xl md:text-3xl xl:text-4xl text-gradient">
                                 My portofolio highlights
                             </h1>
@@ -367,7 +367,7 @@ export default function Welcome({}) {
                     {/* END PAGE 3 */}
 
                     {/* PAGE 4 */}
-                    <div className="xs-py-6 md:py-8">
+                    <div className="">
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient ">
                             My Certifications
                         </h1>
