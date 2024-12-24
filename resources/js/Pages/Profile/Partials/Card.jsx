@@ -2,9 +2,9 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 
-function Card() {
+function Card({ className }) {
     return (
-        <div className="bg-gray-2000 rounded-2xl p-4 shadow-lg">
+        <div className={`bg-gray-2000 rounded-2xl p-4 shadow-lg ${className}`}>
             <div className="rounded-lg overflow-hidden aspect-[4/3]">
                 <img
                     src="https://via.placeholder.com/400x250"

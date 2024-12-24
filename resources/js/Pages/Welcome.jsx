@@ -119,6 +119,63 @@ const InfiniteScrollMarquee = ({ images }) => {
 };
 //  end infinite horizontal scroll
 
+//  infinite horizontal scroll
+const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
+    return (
+        <div className="w-full overflow-hidden whitespace-nowrap mb-2.5">
+            <div className="marquee-wrapper flex hover:pause-marquee">
+                {/* Bagian pertama marquee */}
+                <div
+                    className={`${
+                        reverse ? "animate-marquee-reverse" : "animate-marquee"
+                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[160%] md:w-[145%] xl:w-[121%]`}
+                >
+                    {" "}
+                    {imageCertifs.map((image, index) => (
+                        <div
+                            key={index}
+                            className=" p-1 xl:p-3 group flex content-center"
+                        >
+                            <div className="flex items-center md:items-stretch gap-3">
+                                <img
+                                    className="w-[9.375rem] md:h-auto md:w-[15.625rem] xl:w-[21.875rem] rounded-md"
+                                    src={image.src}
+                                    alt={`Image ${index + 1}`}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {/* END Bagian pertama marquee*/}
+
+                {/* Bagian kedua marquee */}
+                <div
+                    className={`${
+                        reverse ? "animate-marquee-reverse" : "animate-marquee"
+                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[160%] md:w-[145%] xl:w-[121%]`}
+                >
+                    {imageCertifs.map((image, index) => (
+                        <div
+                            key={index}
+                            className=" p-1 xl:p-3 group flex content-center"
+                        >
+                            <div className="flex items-center md:items-stretch gap-3">
+                                <img
+                                    className="w-[9.375rem] md:h-auto md:w-[15.625rem] xl:w-[21.875rem] rounded-md"
+                                    src={image.src}
+                                    alt={`Image ${index + 1}`}
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {/* END Bagian kedua marquee */}
+            </div>
+        </div>
+    );
+};
+//  end infinite horizontal scroll
+
 export default function Welcome({}) {
     const images = [
         {
@@ -183,6 +240,21 @@ export default function Welcome({}) {
         },
     ];
 
+    const imageCertifs = [
+        {
+            src: "https://via.placeholder.com/350x250",
+        },
+        {
+            src: "https://via.placeholder.com/350x250",
+        },
+        {
+            src: "https://via.placeholder.com/350x250",
+        },
+        {
+            src: "https://via.placeholder.com/350x250",
+        },
+    ];
+
     return (
         <>
             <Head title="Welcome" />
@@ -229,9 +301,8 @@ export default function Welcome({}) {
                                 </Link>
                             </div>
                         </div>
-
-                        <div className="w-full px-4 xs:px-10 md:w-[80%] lg:w-full lg:mx-0 md:ml-auto md:px-0 md:py-0">
-                            <div className="grid grid-cols-2 gap-y-3 md:gap-x-0 md:gap-y-6 sm:gap-x-3 justify-items-center">
+                        <div className="w-full px-4 sm:px-6 md:w-[80%] lg:w-full lg:mx-0 md:ml-auto md:px-0 md:py-0">
+                            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8 justify-items-center">
                                 {/* Top */}
                                 <div className="hidden md:block w-32 h-20 lg:w-44 lg:h-32 bg-green-1000 rounded-b-xl"></div>
                                 <div className="hidden md:block w-32 h-20 lg:w-44 lg:h-32 bg-green-1000 rounded-b-xl"></div>
@@ -275,7 +346,7 @@ export default function Welcome({}) {
                             <h1 className="font-black mb-2 md:mb-0 text-2xl md:text-3xl xl:text-4xl text-gradient">
                                 My portofolio highlights
                             </h1>
-                            <Link className="group inline-flex px-1 py-1 md:px-4 md:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
+                            <Link className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
                                 <div className="flex items-center gap-3">
                                     <p className="font-bold text-sm md:text-base">
                                         View all work
@@ -289,9 +360,23 @@ export default function Welcome({}) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xs:py-6 md:py-8">
                             <Card />
                             <Card />
+                            <Card className="hidden md:block" />
+                            <Card className="hidden md:block" />
                         </div>
                     </div>
                     {/* END PAGE 3 */}
+
+                    {/* PAGE 4 */}
+                    <div className="xs-py-6 md:py-8">
+                        <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient ">
+                            My Certifications
+                        </h1>
+                        <InfiniteScrollCertif imageCertifs={imageCertifs} />
+                        <InfiniteScrollCertif
+                            imageCertifs={imageCertifs}
+                            reverse
+                        />
+                    </div>
                 </div>
             </div>
         </>
