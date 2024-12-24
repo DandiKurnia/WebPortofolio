@@ -2,7 +2,12 @@ import Navbar from "@/Components/Navbar";
 import { Link, Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
 import Card from "./Profile/Partials/Card";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import TextArea from "@/Components/textArea";
 
 // Typing
 const TypingAnimation = ({ text = "", typingSpeed = 100 }) => {
@@ -367,7 +372,7 @@ export default function Welcome({}) {
                     {/* END PAGE 3 */}
 
                     {/* PAGE 4 */}
-                    <div className="">
+                    <div className="xs:mb-6 md:mb-8">
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient ">
                             My Certifications
                         </h1>
@@ -377,6 +382,98 @@ export default function Welcome({}) {
                             reverse
                         />
                     </div>
+                    {/* END PAGE 4 */}
+
+                    {/* PAGE 5 */}
+
+                    <div className="xs:mb-6 md:mb-8">
+                        <div className="grid gap-4 md:gap-0 md:grid-rows-none md:grid-cols-2 xl:grid-cols-2">
+                            {/* Left */}
+                            <div className="flex flex-col gap-4 md:gap-0 justify-between">
+                                <div>
+                                    <h1 className="font-black text-2xl md:text-3xl xl:text-6xl mb-3 md:mb-4 text-gradient text-center md:text-left">
+                                        Contact me for collaboration
+                                    </h1>
+                                    <p className="text-gray-400 text-lg text-center md:text-left">
+                                        Reach out today to discuss your project
+                                        <br />
+                                        needs and start collaboration on <br />
+                                        something amazing!
+                                    </p>
+                                </div>
+
+                                {/* Sosial Media */}
+                                <div className="flex gap-4 justify-center md:justify-start mt-auto">
+                                    <Link className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000">
+                                        <FaInstagram className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
+                                    </Link>
+                                    <Link className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000">
+                                        <FaLinkedin className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
+                                    </Link>
+                                    <Link className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000">
+                                        <FaGithub className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
+                                    </Link>
+                                    <Link className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000">
+                                        <FaSquareXTwitter className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
+                                    </Link>
+                                </div>
+                            </div>
+                            {/* End Left */}
+
+                            {/* Right */}
+                            <div>
+                                <div className="grid grid-cols-2 gap-2 mb-4">
+                                    <div>
+                                        <InputLabel
+                                            value="Name"
+                                            className="md:text-lg"
+                                        />
+                                        <TextInput
+                                            id="name"
+                                            type="text"
+                                            className="mt-1 block w-full"
+                                            isFocused={true}
+                                            placeholder="dandi kurnia"
+                                        />
+                                    </div>
+                                    <div>
+                                        <InputLabel
+                                            value="Email"
+                                            className="md:text-lg"
+                                        />
+                                        <TextInput
+                                            id="name"
+                                            type="text"
+                                            className="mt-1 block w-full"
+                                            isFocused={true}
+                                            placeholder="dandikurnia@gmail.com"
+                                        />
+                                    </div>
+                                </div>
+                                <InputLabel
+                                    value="Message"
+                                    className="md:text-lg"
+                                />
+                                <div className="mb-4">
+                                    <TextArea
+                                        id="name"
+                                        type="text"
+                                        className="mt-1 block w-full"
+                                        isFocused={true}
+                                        placeholder="Message"
+                                        rows="6"
+                                    />
+                                </div>
+
+                                <button className="px-2 py-2 bg-green-1000 text-gray-1000 rounded-lg hover:opacity-90 font-semibold block w-full">
+                                    Submit
+                                </button>
+                            </div>
+                            {/* End Right */}
+                        </div>
+                    </div>
+
+                    {/* END PAGE 5 */}
                 </div>
             </div>
         </>
