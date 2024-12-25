@@ -260,10 +260,43 @@ export default function Welcome({}) {
         },
     ];
 
+    const footLink = [
+        {
+            label: "Home",
+            link: "#",
+        },
+        {
+            label: "About Me",
+            link: "#",
+        },
+        {
+            label: "Service",
+            link: "#",
+        },
+        {
+            label: "Instagram",
+            link: "#",
+        },
+        {
+            label: "X",
+            link: "#",
+        },
+        {
+            label: "Linkein",
+            link: "#",
+        },
+        {
+            label: "GitHub",
+            link: "#",
+        },
+    ];
+
+    const firstPart = footLink.slice(0, 3);
+    const secondPart = footLink.slice(3);
     return (
         <>
             <Head title="MyPortofolio" />
-            <div className="min-h-screen pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-1000">
+            <div className="min-h-screen sm:pt-0 bg-gray-100 dark:bg-gray-1000">
                 <div className="max-w-7xl mx-auto px-8 sm:px-6 min-h-screen flex flex-col">
                     <Navbar />
 
@@ -329,7 +362,7 @@ export default function Welcome({}) {
                     {/* END PAGE 1 */}
 
                     {/* PAGE 2 */}
-                    <div className="xs:mb-6 md:mb-8">
+                    <div className="xs:my-6 md:my-20">
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient">
                             Essential skills I use
                         </h1>
@@ -346,7 +379,7 @@ export default function Welcome({}) {
                     {/* END PAGE 2 */}
 
                     {/* PAGE 3 */}
-                    <div className="xs:mb-6 md:mb-8">
+                    <div className="xs:my-6 md:my-20">
                         <div className="block md:flex md:justify-between md:items-center mb-2 md:mb-0">
                             <h1 className="font-black mb-2 md:mb-0 text-2xl md:text-3xl xl:text-4xl text-gradient">
                                 My portofolio highlights
@@ -372,7 +405,7 @@ export default function Welcome({}) {
                     {/* END PAGE 3 */}
 
                     {/* PAGE 4 */}
-                    <div className="xs:mb-6 md:mb-8">
+                    <div className="xs:my-6 md:my-20">
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient ">
                             My Certifications
                         </h1>
@@ -386,7 +419,7 @@ export default function Welcome({}) {
 
                     {/* PAGE 5 */}
 
-                    <div className="xs:mb-6 md:mb-8">
+                    <div className="xs:my-6 md:my-20">
                         <div className="grid gap-4 md:gap-0 md:grid-rows-none md:grid-cols-2 xl:grid-cols-2">
                             {/* Left */}
                             <div className="flex flex-col gap-4 md:gap-0 justify-between">
@@ -432,7 +465,6 @@ export default function Welcome({}) {
                                             id="name"
                                             type="text"
                                             className="mt-1 block w-full"
-                                            isFocused={true}
                                             placeholder="dandi kurnia"
                                         />
                                     </div>
@@ -445,7 +477,6 @@ export default function Welcome({}) {
                                             id="name"
                                             type="text"
                                             className="mt-1 block w-full"
-                                            isFocused={true}
                                             placeholder="dandikurnia@gmail.com"
                                         />
                                     </div>
@@ -459,7 +490,6 @@ export default function Welcome({}) {
                                         id="name"
                                         type="text"
                                         className="mt-1 block w-full"
-                                        isFocused={true}
                                         placeholder="Message"
                                         rows="6"
                                     />
@@ -472,8 +502,77 @@ export default function Welcome({}) {
                             {/* End Right */}
                         </div>
                     </div>
-
                     {/* END PAGE 5 */}
+
+                    {/* Footer */}
+                    <footer className="py-20">
+                        <hr className="mb-20" />
+                        <div className="flex flex-col sm:flex-row justify-between gap-4 md:gap-0">
+                            <div className=" w-full sm:w-1/2">
+                                <h1 className="font-bold text-4xl xl:text-6xl mb-4 md:mb-5 xl:mb-8 text-gradient">
+                                    Let's work <br />
+                                    together today
+                                </h1>
+                                <Link className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
+                                    <div className="flex items-center gap-3">
+                                        <p className="font-bold text-sm md:text-base">
+                                            Start project
+                                        </p>
+                                        <IoIosArrowForward className="transition-transform transform group-hover:translate-x-1" />
+                                    </div>
+                                </Link>
+                            </div>
+                            <div className="grid grid-rows-2 md:grid-cols-2 text-white-100 md:gap-40">
+                                {/* Bagian Pertama */}
+                                <div>
+                                    <h2 className="font-bold text-lg mb-3">
+                                        Product
+                                    </h2>
+                                    <ul className="space-y-2">
+                                        {firstPart.map((d, i) => (
+                                            <li>
+                                                <Link
+                                                    key={i}
+                                                    className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
+                            }`}
+                                                    href={d.link}
+                                                >
+                                                    {d.label}
+                                                    {/* Garis bawah yang muncul dari kiri ke kanan */}
+                                                    <span className="absolute left-0 bottom-0 w-full h-[2px] bg-green-1000 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700 rounded-full"></span>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                {/* Bagian Kedua */}
+                                <div>
+                                    <h2 className="font-bold text-lg mb-3">
+                                        Socials
+                                    </h2>
+                                    <ul className="space-y-2">
+                                        {secondPart.map((d, i) => (
+                                            <li>
+                                                <Link
+                                                    key={i}
+                                                    className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
+                        }`}
+                                                    href={d.link}
+                                                >
+                                                    {d.label}
+                                                    {/* Garis bawah yang muncul dari kiri ke kanan */}
+                                                    <span className="absolute left-0 bottom-0 w-full h-[2px] bg-green-1000 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700 rounded-full"></span>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+
+                    {/* End Footer */}
                 </div>
             </div>
         </>
