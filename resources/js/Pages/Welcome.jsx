@@ -64,7 +64,7 @@ const InfiniteScrollMarquee = ({ images }) => {
             {/* Wrapper untuk kedua marquee */}
             <div className="marquee-wrapper flex hover:pause-marquee">
                 {/* Bagian pertama marquee */}
-                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[600%] md:w-[300%] xl:w-[200%]">
+                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[600%] md:w-[300%] lg:w-[220%] xl:w-[200%]">
                     {images.map((image, index) => (
                         <div
                             key={index}
@@ -90,9 +90,10 @@ const InfiniteScrollMarquee = ({ images }) => {
                         </div>
                     ))}
                 </div>
+                {/* End Bagian pertama marquee */}
 
                 {/* Bagian kedua marquee */}
-                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[600%] md:w-[300%] xl:w-[200%]">
+                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[600%] md:w-[300%] lg:w-[220%] xl:w-[200%]">
                     {images.map((image, index) => (
                         <div
                             key={index}
@@ -118,13 +119,14 @@ const InfiniteScrollMarquee = ({ images }) => {
                         </div>
                     ))}
                 </div>
+                {/* End Bagian Kedua marquee */}
             </div>
         </div>
     );
 };
 //  end infinite horizontal scroll
 
-//  infinite horizontal scroll
+//  infinite horizontal scroll certif
 const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
     return (
         <div className="w-full overflow-hidden whitespace-nowrap mb-2.5">
@@ -133,7 +135,7 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
                 <div
                     className={`${
                         reverse ? "animate-marquee-reverse" : "animate-marquee"
-                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[200%] md:w-[160%] xl:w-[121%]`}
+                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[200%] md:w-[160%] lg:w-[117%] xl:w-[121%]`}
                 >
                     {" "}
                     {imageCertifs.map((image, index) => (
@@ -141,9 +143,9 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
                             key={index}
                             className=" p-2 md:p-3 group flex content-center"
                         >
-                            <div className="flex items-center md:items-stretch gap-3">
+                            <div className="flex items-center md:items-stretch xl:gap-3">
                                 <img
-                                    className="w-[12.5rem] md:h-auto md:w-[15.625rem] xl:w-[22.875rem] rounded-md"
+                                    className="w-[12.5rem] md:h-auto md:w-[15.625rem] lg:w-[17.5rem] xl:w-[22.875rem] rounded-md"
                                     src={image.src}
                                     alt={`Image ${index + 1}`}
                                 />
@@ -157,16 +159,16 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
                 <div
                     className={`${
                         reverse ? "animate-marquee-reverse" : "animate-marquee"
-                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[200%] md:w-[160%] xl:w-[121%]`}
+                    } flex-shrink-0 justify-evenly flex whitespace-nowrap w-[200%] md:w-[160%] lg:w-[117%] xl:w-[121%] `}
                 >
                     {imageCertifs.map((image, index) => (
                         <div
                             key={index}
                             className=" p-2 md:p-3 group flex content-center"
                         >
-                            <div className="flex items-center md:items-stretch gap-3">
+                            <div className="flex items-center md:items-stretch xl:gap-3">
                                 <img
-                                    className="w-[12.5rem] md:h-auto md:w-[15.625rem] xl:w-[22.875rem] rounded-md"
+                                    className="w-[12.5rem] md:h-auto md:w-[15.625rem] lg:w-[17.5rem] xl:w-[22.875rem] rounded-md"
                                     src={image.src}
                                     alt={`Image ${index + 1}`}
                                 />
@@ -179,9 +181,10 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
         </div>
     );
 };
-//  end infinite horizontal scroll
+//  end infinite horizontal scroll certif
 
 export default function Welcome({}) {
+    // Image Skill
     const images = [
         {
             src: "/assets/img/html.png",
@@ -244,7 +247,9 @@ export default function Welcome({}) {
             description: "Version Control",
         },
     ];
+    // END Image Skill
 
+    // Image Certif
     const imageCertifs = [
         {
             src: "https://via.placeholder.com/350x250",
@@ -259,7 +264,9 @@ export default function Welcome({}) {
             src: "https://via.placeholder.com/350x250",
         },
     ];
+    // End Image Certif
 
+    // Footer Link
     const footLink = [
         {
             label: "Home",
@@ -293,15 +300,20 @@ export default function Welcome({}) {
 
     const firstPart = footLink.slice(0, 3);
     const secondPart = footLink.slice(3);
+
+    // End Footer Link
     return (
         <>
             <Head title="MyPortofolio" />
             <div className="min-h-screen sm:pt-0 bg-gray-100 dark:bg-gray-1000">
-                <div className="max-w-7xl mx-auto px-8 sm:px-6 min-h-screen flex flex-col">
+                <div className="max-w-7xl mx-auto px-8 md:px-12 sm:px-6 min-h-screen flex flex-col">
+                    {/* Navbar */}
                     <Navbar />
+                    {/* End Navbar */}
 
                     {/* PAGE 1 */}
                     <div className="py-8 grid grid-rows-2 md:grid-rows-none md:grid-cols-2 xl:grid-cols-3 items-start md:items-center">
+                        {/* Left */}
                         <div className="xl:col-span-2">
                             <div className="flex items-center space-x-4 dark:text-white-100">
                                 <span className="w-[3rem] *:md:w-[5rem] h-[2px] bg-green-1000"></span>
@@ -339,7 +351,10 @@ export default function Welcome({}) {
                                 </Link>
                             </div>
                         </div>
-                        <div className="w-full px-4 sm:px-6 md:w-[80%] lg:w-full lg:mx-0 md:ml-auto md:px-0 md:py-0">
+                        {/* END Left */}
+
+                        {/* Right */}
+                        <div className="w-full px-4 sm:px-6 md:w-[80%] xl:w-full xl:mx-0 md:ml-auto md:px-0 md:py-0">
                             <div className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8 justify-items-center">
                                 {/* Top */}
                                 <div className="hidden md:block w-32 h-20 lg:w-44 lg:h-32 bg-green-1000 rounded-b-xl"></div>
@@ -358,11 +373,13 @@ export default function Welcome({}) {
                                 <div className="sm:hidden lg:hidden w-32 lg:w-44 h-32 lg:h-44 bg-green-1000 rounded-xl"></div>
                             </div>
                         </div>
+                        {/* END Right */}
                     </div>
-                    {/* END PAGE 1 */}
+                    {/* End PAGE 1 */}
 
                     {/* PAGE 2 */}
-                    <div className="xs:my-6 md:my-20">
+                    <div className="xs:my-6 md:my-12 lg:my-16 xl:my-20">
+                        {/* Left */}
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient">
                             Essential skills I use
                         </h1>
@@ -372,15 +389,19 @@ export default function Welcome({}) {
                             <br className="hidden md:block " /> exceptional,
                             high-performing website and applications.
                         </p>
+                        {/* End Left*/}
+
+                        {/* Right */}
                         <div className="flex justify-center">
                             <InfiniteScrollMarquee images={images} />
                         </div>
+                        {/* End Right */}
                     </div>
-                    {/* END PAGE 2 */}
+                    {/* End PAGE 2 */}
 
                     {/* PAGE 3 */}
-                    <div className="xs:my-6 md:my-20">
-                        <div className="block md:flex md:justify-between md:items-center mb-2 md:mb-0">
+                    <div className="xs:my-6 my-6 md:my-12 lg:my-20">
+                        <div className="block md:flex md:justify-between md:items-center md:mb-0">
                             <h1 className="font-black mb-2 md:mb-0 text-2xl md:text-3xl xl:text-4xl text-gradient">
                                 My portofolio highlights
                             </h1>
@@ -394,32 +415,35 @@ export default function Welcome({}) {
                             </Link>
                         </div>
 
-                        {/* <Card /> */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xs:py-6 md:py-8">
+                        {/* Card */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6 md:py-8">
                             <Card />
                             <Card />
                             <Card className="hidden md:block" />
                             <Card className="hidden md:block" />
                         </div>
+                        {/* End Caed */}
                     </div>
-                    {/* END PAGE 3 */}
+                    {/* End PAGE 3 */}
 
                     {/* PAGE 4 */}
-                    <div className="xs:my-6 md:my-20">
+                    <div className="md:my-12 md:mt-8 md:mb-14">
                         <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient ">
                             My Certifications
                         </h1>
+                        {/* Card */}
                         <InfiniteScrollCertif imageCertifs={imageCertifs} />
                         <InfiniteScrollCertif
                             imageCertifs={imageCertifs}
                             reverse
                         />
+                        {/* End Card */}
                     </div>
                     {/* END PAGE 4 */}
 
                     {/* PAGE 5 */}
 
-                    <div className="xs:my-6 md:my-20">
+                    <div className="xs:my-6 md:my-16">
                         <div className="grid gap-4 md:gap-0 md:grid-rows-none md:grid-cols-2 xl:grid-cols-2">
                             {/* Left */}
                             <div className="flex flex-col gap-4 md:gap-0 justify-between">
@@ -506,13 +530,13 @@ export default function Welcome({}) {
 
                     {/* Footer */}
                     <footer className="py-20">
-                        <hr className="mb-20" />
+                        <hr className="mb-20 bg-white-100" />
                         <div className="flex flex-col sm:flex-row justify-between gap-4 md:gap-0">
                             <div className=" w-full sm:w-1/2">
-                                <h1 className="font-bold text-4xl xl:text-6xl mb-4 md:mb-5 xl:mb-8 text-gradient">
+                                <p className="text-4xl xl:text-6xl mb-4 md:mb-5 xl:mb-8 text-white-100">
                                     Let's work <br />
                                     together today
-                                </h1>
+                                </p>
                                 <Link className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
                                     <div className="flex items-center gap-3">
                                         <p className="font-bold text-sm md:text-base">
@@ -522,7 +546,7 @@ export default function Welcome({}) {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="grid grid-rows-2 md:grid-cols-2 text-white-100 md:gap-40">
+                            <div className="grid grid-rows-2 md:grid-rows-none md:grid-cols-2 text-white-100 md:gap-40">
                                 {/* Bagian Pertama */}
                                 <div>
                                     <h2 className="font-bold text-lg mb-3">
@@ -530,7 +554,7 @@ export default function Welcome({}) {
                                     </h2>
                                     <ul className="space-y-2">
                                         {firstPart.map((d, i) => (
-                                            <li>
+                                            <li key={i}>
                                                 <Link
                                                     key={i}
                                                     className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
@@ -553,7 +577,7 @@ export default function Welcome({}) {
                                     </h2>
                                     <ul className="space-y-2">
                                         {secondPart.map((d, i) => (
-                                            <li>
+                                            <li key={i}>
                                                 <Link
                                                     key={i}
                                                     className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
