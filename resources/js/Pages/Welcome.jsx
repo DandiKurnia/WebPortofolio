@@ -442,7 +442,6 @@ export default function Welcome({}) {
                     {/* END PAGE 4 */}
 
                     {/* PAGE 5 */}
-
                     <div className="xs:my-6 md:my-16">
                         <div className="grid gap-4 md:gap-0 md:grid-rows-none md:grid-cols-2 xl:grid-cols-2">
                             {/* Left */}

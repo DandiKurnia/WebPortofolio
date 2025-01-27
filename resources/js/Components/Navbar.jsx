@@ -55,7 +55,7 @@ export default function Navbar({}) {
             </section>
             {/* Sidebar mobile Menu */}
             <div
-                className={`fixed h-full w-screen md:hidden bg-black/50 dark:bg-white-100/10 backdrop-blur-sm top-0 left-0 transition-opacity duration-300 z-50 ${
+                className={`fixed h-full w-screen md:hidden dark:bg-white-100/10 backdrop-blur-sm top-0 left-0 transition-opacity duration-300 z-50 ${
                     isSideMenuOpen
                         ? "opacity-100"
                         : "opacity-0 pointer-events-none"
