@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectResource extends JsonResource
 {
+    public static $wrap = false;
+
     /**
      * Transform the resource into an array.
      *
@@ -19,7 +21,7 @@ class ProjectResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'link' => $this->link,
-            'technologies' => $this->technologies,
+            'technologies' => json_decode($this->technologies, true),
             'images' => ProjectImageResource::collection($this->images),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

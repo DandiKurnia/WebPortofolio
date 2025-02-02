@@ -12,7 +12,7 @@ export default function Sidebar({ showSidebar }) {
         },
         {
             label: "Project",
-            route: "welcome",
+            route: "project.index",
             icon: <AiOutlineFolderOpen className="text-2xl" />,
         },
         {
@@ -31,7 +31,7 @@ export default function Sidebar({ showSidebar }) {
             } `}
         >
             <nav
-                className={`p-4 h-screen fixed top-20 bg-gray-2000 text-white border-r border-gray-500 transition-all duration-300 ease-in-out z-40 
+                className={`p-4 h-screen fixed top-20 bg-gray-2000 text-white border-r border-gray-500 transition-all duration-300 ease-in-out z-50 
         ${showSidebar ? "w-64 block" : "w-20 hidden"} md:block`}
             >
                 <ul>

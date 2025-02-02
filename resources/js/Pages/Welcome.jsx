@@ -183,7 +183,7 @@ const InfiniteScrollCertif = ({ imageCertifs, reverse = false }) => {
 };
 //  end infinite horizontal scroll certif
 
-export default function Welcome({}) {
+export default function Welcome() {
     // Image Skill
     const images = [
         {
@@ -326,7 +326,10 @@ export default function Welcome({}) {
                             </h1>
                             <div className="flex items-center space-x-4 mb-5 md:mb-10">
                                 <div className="w-7 h-7 md:w-10 md:h-10 bg-green-1000 rounded-md"></div>
-                                <span className="w-[5px] h-[5px] bg-green-1000 rounded-full"></span>
+                                <span className="relative flex size-2">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-1000 opacity-75"></span>
+                                    <span className="relative inline-flex size-2 rounded-full bg-green-1000"></span>
+                                </span>
                                 <h1 className="text-gray-300 font-semibold">
                                     <TypingAnimation text="Available for freelancing" />
                                 </h1>

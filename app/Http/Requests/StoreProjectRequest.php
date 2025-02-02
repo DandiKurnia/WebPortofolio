@@ -11,7 +11,7 @@ class StoreProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'link' => 'nullable',
+            'technologies' => 'required|array',
+            'images' => 'required',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi setiap gambar
         ];
     }
 }

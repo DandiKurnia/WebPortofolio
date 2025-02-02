@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UpdateProjectRequest extends FormRequest
 {
@@ -11,7 +13,8 @@ class UpdateProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // \Log::info('UpdateProjectRequest authorize called');
+        return true;
     }
 
     /**
@@ -22,7 +25,14 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'link' => 'nullable|url',
+            'technologies' => 'required|array',
+            'technologies.*' => 'string|max:255',
+            'newImages' => 'nullable|array',
+            'newImages.*' => 'nullable|mimes:jpeg,jpg,png,gif|max:2048',
         ];
     }
+    
 }

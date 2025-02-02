@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Resources\ProjectResource;
+use App\Models\ProjectImage;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
@@ -13,7 +17,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = Project::paginate(10)->onEachSide(1);
+        return inertia("Project/Index", [
+            "projects" => ProjectResource::collection($projects),
+            "success" => session("success")
+        ]);
     }
 
     /**
@@ -21,7 +29,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia("Project/Create");
     }
 
     /**
@@ -29,7 +37,21 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['technologies'] = json_encode($data['technologies']);
+        $project = Project::create($data);
+    
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('public/project_images'); 
+                ProjectImage::create([
+                    'project_id' => $project->id,
+                    'image_path' => 'project_images/' . basename($path),
+                ]);
+            }
+        }
+    
+        return redirect()->route('project.index')->with('success', 'Proyek berhasil disimpan!');
     }
 
     /**
@@ -45,7 +67,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return inertia("Project/Edit", [
+            "project" => new ProjectResource($project)
+        ]);
     }
 
     /**
@@ -53,9 +77,76 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
-    }
+        \Log::info('Masuk ke ProjectController update method');
+    
+        try {
+            $data = $request->validated();
+            \Log::info('Update Project', ['request' => $data]);
+    
+            $data['technologies'] = json_encode($data['technologies']);
+            $project->update($data);
+            \Log::info('Project updated', ['project' => $project]);
+    
+            // Debugging: Periksa semua request data
+            \Log::info('Full request data:', $request->all());
+    
+            // 🔹 Tangkap `imagesToDelete`
+            $imagesToDelete = $request->input('imagesToDelete', []);
+    
+            // Jika `imagesToDelete` adalah string JSON, decode dulu
+            if (is_string($imagesToDelete)) {
+                $imagesToDelete = json_decode($imagesToDelete, true);
+            }
+    
+            if (!is_array($imagesToDelete)) {
+                $imagesToDelete = [];
+            }
+    
+            \Log::info('After fix - imagesToDelete:', ['imagesToDelete' => $imagesToDelete]);
+    
+            // Hapus gambar jika ada
+            if (!empty($imagesToDelete)) {
+                foreach ($imagesToDelete as $imageId) {
+                    $image = ProjectImage::find($imageId);
+                    if ($image) {
+                        Storage::delete('public/' . $image->image_path);
+                        $image->delete();
+                        \Log::info("Deleted image ID: $imageId");
+                    }
+                }
+            } else {
+                \Log::warning("imagesToDelete is empty or not received properly.");
+            }
 
+            // 🔹 Tangkap `newImages`
+            $newImages = $request->file('newImages', []);
+
+            if (!empty($newImages)) {
+                foreach ($newImages as $image) {
+                    // Menyimpan gambar ke dalam storage
+                    $path = $image->store('project_images', 'public');
+                    
+                    // Menambahkan path gambar baru ke database
+                    $project->images()->create([
+                        'image_path' => $path,
+                    ]);
+                    
+                    \Log::info("New image added with path: $path");
+                }
+            } else {
+                \Log::warning("No new images uploaded.");
+            }
+
+    
+            return redirect()->route('project.index')->with('success', 'Project updated successfully');
+        } catch (\Exception $e) {
+            \Log::error('Error updating project', ['error' => $e->getMessage()]);
+            return redirect()->back()->withErrors('Error updating project');
+        }
+    }
+    
+    
+    
     /**
      * Remove the specified resource from storage.
      */
