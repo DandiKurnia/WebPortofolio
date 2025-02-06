@@ -20,7 +20,9 @@ class ProjectController extends Controller
         $projects = Project::paginate(10)->onEachSide(1);
         return inertia("Project/Index", [
             "projects" => ProjectResource::collection($projects),
-            "success" => session("success")
+            "success" => session("successCreated"),
+            "successEdit" => session("successEdit"),
+            "successDelete" => session("successDelete")
         ]);
     }
 
@@ -51,7 +53,7 @@ class ProjectController extends Controller
             }
         }
     
-        return redirect()->route('project.index')->with('success', 'Proyek berhasil disimpan!');
+        return redirect()->route('project.index')->with('successCreated', 'Project was created!');
     }
 
     /**
@@ -138,7 +140,7 @@ class ProjectController extends Controller
             }
 
     
-            return redirect()->route('project.index')->with('success', 'Project updated successfully');
+            return redirect()->route('project.index')->with('successEdit', 'Project updated successfully');
         } catch (\Exception $e) {
             \Log::error('Error updating project', ['error' => $e->getMessage()]);
             return redirect()->back()->withErrors('Error updating project');
@@ -152,6 +154,26 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $title = $project->title;
+    
+        // Ambil semua gambar yang terkait dengan proyek
+        $projectImages = ProjectImage::where('project_id', $project->id)->get();
+    
+        if ($projectImages->isNotEmpty()) {
+            foreach ($projectImages as $image) {
+                Storage::delete('public/' . $image->image_path); // Hapus file dari storage
+                \Log::warning('Deleted project image with path: ' . $image->image_path);
+            }
+            
+            // Hapus semua entri gambar terkait dari database
+            ProjectImage::where('project_id', $project->id)->delete();
+        } else {
+            \Log::warning('No images found for project ID: ' . $project->id);
+        }
+    
+        // Hapus proyek dari database
+        $project->delete();
+    
+        return redirect()->route('project.index')->with('successDelete', "Project \"$title\" was deleted");
     }
 }

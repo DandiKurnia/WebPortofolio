@@ -26,7 +26,7 @@ class StoreProjectRequest extends FormRequest
             'description' => 'required|string',
             'link' => 'nullable',
             'technologies' => 'required|array',
-            'images' => 'required',
+            'images' => 'required|max:2048',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi setiap gambar
         ];
     }

@@ -124,7 +124,7 @@ export default function Create({ auth, project }) {
             </div>
             <div className="bg-gray-2000 p-6 rounded-sm">
                 <form onSubmit={onSubmit} encType="multipart/form-data">
-                    {/* Input Name and Link */}
+                    {/* Input name and link */}
                     <div className="grid grid-cols-2 gap-2 mb-4">
                         <div>
                             <InputLabel
@@ -164,7 +164,9 @@ export default function Create({ auth, project }) {
                             ></InputError>
                         </div>
                     </div>
-                    {/* Input Description */}
+                    {/* End input name and link */}
+
+                    {/* Input description */}
                     <div className="mt-4">
                         <InputLabel
                             value="Description Project"
@@ -186,8 +188,9 @@ export default function Create({ auth, project }) {
                             className="mt-2"
                         ></InputError>
                     </div>
+                    {/* End Input description */}
 
-                    {/* Input Tecnology */}
+                    {/* Input tecnology */}
                     <div className="mt-4">
                         <InputLabel value="Tecnology" className="md:text-lg" />
                         <div className="flex justify-center gap-2 mt-1">
@@ -207,11 +210,13 @@ export default function Create({ auth, project }) {
                                 Tambah
                             </button>
                         </div>
+
                         <InputError
                             message={errors.link}
                             className="mt-2"
                         ></InputError>
-                        {/* Menampilkan Tecnology */}
+
+                        {/* Menampilkan tecnology */}
                         <div
                             className={`flex flex-wrap gap-2 mt-3 border-2 border-gray-700 border-dashed p-2 rounded-lg ${
                                 project.technologies.length === 0
@@ -234,8 +239,9 @@ export default function Create({ auth, project }) {
                                 </span>
                             ))}
                         </div>
+                        {/* End menampilkan tecnology */}
                     </div>
-                    {/* End Input Tecnology */}
+                    {/* End input tecnology */}
 
                     {/* Drag and Drop untuk gambar */}
                     <div className="mt-4">
@@ -345,7 +351,7 @@ export default function Create({ auth, project }) {
                             );
                         })}
                     </div>
-                    {/* End Tampilkan preview gambar */}
+                    {/* End tampilkan preview gambar */}
 
                     {/* Button */}
                     <div className="flex justify-end gap-2">

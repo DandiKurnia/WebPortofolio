@@ -1,8 +1,23 @@
+import SuccessMessage from "@/Components/SuccessMessage";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
+import { IoInformationCircle } from "react-icons/io5";
 import { useState } from "react";
+import Pagination from "@/Components/Pagination";
 
-export default function Index({ auth, success, projects }) {
+export default function Index({
+    auth,
+    successCreated,
+    projects,
+    successEdit,
+    successDelete,
+}) {
+    const deleteProject = (project) => {
+        if (!window.confirm("Are you sure you want to delete the project?")) {
+            return;
+        }
+        router.delete(route("project.destroy", project.id));
+    };
     return (
         <AdminLayout
             user={auth.user}
@@ -12,10 +27,8 @@ export default function Index({ auth, success, projects }) {
                 </h2>
             }
         >
-            <Head title="Dashboard" />
-            {/* <pre className="text-white">
-                {JSON.stringify(projects, null, 2)}
-            </pre> */}
+            <Head title="Project" />
+            {/* <pre className="text-white">{projects?.data?.length ?? 0}</pre> */}
 
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-4xl font-extrabold text-white-100">
@@ -28,6 +41,19 @@ export default function Index({ auth, success, projects }) {
                     <p className="font-bold text-sm md:text-base">Create</p>
                 </Link>
             </div>
+
+            {/* Alert */}
+            {successCreated && (
+                <SuccessMessage message={successCreated} type="success" />
+            )}
+            {successEdit && (
+                <SuccessMessage message={successEdit} type="edit" />
+            )}
+            {successDelete && (
+                <SuccessMessage message={successDelete} type="delete" />
+            )}
+            {/* End alert */}
+
             <div className="bg-gray-2000 p-6 rounded-sm">
                 <div className="overflow-x-auto">
                     <table className="text-left text-white-100 w-full">
@@ -39,47 +65,66 @@ export default function Index({ auth, success, projects }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {projects.data.map((project) => (
-                                <tr
-                                    key={project.id}
-                                    className="border-gray-400 border-b"
-                                >
-                                    <td className="px-3 py-3">
-                                        {project.images.length > 0 && (
-                                            <img
-                                                src={
-                                                    project.images[0].image_path
-                                                }
-                                                alt="Project Image"
-                                                className="w-20 h-20 object-cover rounded"
-                                            />
-                                        )}
-                                    </td>
-                                    <td className="px-3 py-3">
-                                        {project.title}
-                                    </td>
-                                    <td className="text-nowrap px-3 py-3">
-                                        <Link
-                                            href={route(
-                                                "project.edit",
-                                                project.id
+                            {projects?.data?.length > 0 ? (
+                                projects.data.map((project) => (
+                                    <tr
+                                        key={project.id}
+                                        className="border-gray-400 border-b"
+                                    >
+                                        <td className="px-3 py-3">
+                                            {project.images.length > 0 && (
+                                                <img
+                                                    src={
+                                                        project.images[0]
+                                                            .image_path
+                                                    }
+                                                    alt="Project Image"
+                                                    className="w-20 h-20 object-cover rounded"
+                                                />
                                             )}
-                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline me-4"
-                                        >
-                                            Edit
-                                        </Link>
-                                        <button
-                                            onClick={(e) => deleteTask(project)}
-                                            className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
-                                        >
-                                            Delete
-                                        </button>
+                                        </td>
+                                        <td className="px-3 py-3">
+                                            {project.title}
+                                        </td>
+                                        <td className="text-nowrap px-3 py-3">
+                                            <Link
+                                                href={route(
+                                                    "project.edit",
+                                                    project.id
+                                                )}
+                                                className="font-medium text-blue-600 dark:text-blue-500 hover:underline me-4"
+                                            >
+                                                Edit
+                                            </Link>
+                                            <button
+                                                onClick={() =>
+                                                    deleteProject(project)
+                                                }
+                                                className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td
+                                        colSpan="3"
+                                        className="text-center py-3"
+                                    >
+                                        Tidak ada proyek
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
+                {projects?.data?.length > 0 ? (
+                    <Pagination links={projects.meta.links} />
+                ) : (
+                    ""
+                )}
             </div>
         </AdminLayout>
     );

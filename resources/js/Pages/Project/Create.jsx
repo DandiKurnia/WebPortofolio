@@ -21,16 +21,6 @@ export default function Create({ auth }) {
     const [previewImages, setPreviewImages] = useState([]);
     const [newTech, setNewTech] = useState("");
 
-    // Handle file input change
-    // const handleFileChange = (e) => {
-    //     const files = Array.from(e.target.files);
-    //     setData((prevData) => ({
-    //         ...prevData,
-    //         images: files,
-    //     }));
-    //     previewFiles(files);
-    // };
-
     // Handle file drop
     const onDrop = useCallback(
         (acceptedFiles) => {
@@ -97,7 +87,7 @@ export default function Create({ auth }) {
             </div>
             <div className="bg-gray-2000 p-6 rounded-sm">
                 <form onSubmit={onSubmit}>
-                    {/* Input Name and Link */}
+                    {/* Input name and link */}
                     <div className="grid grid-cols-2 gap-2 mb-4">
                         <div>
                             <InputLabel
@@ -137,7 +127,9 @@ export default function Create({ auth }) {
                             ></InputError>
                         </div>
                     </div>
-                    {/* Input Description */}
+                    {/* End input name and link */}
+
+                    {/* Input description */}
                     <div className="mt-4">
                         <InputLabel
                             value="Description Project"
@@ -159,7 +151,9 @@ export default function Create({ auth }) {
                             className="mt-2"
                         ></InputError>
                     </div>
-                    {/* Input Tecnology */}
+                    {/* End input description */}
+
+                    {/* Input tecnology */}
                     <div className="mt-4">
                         <InputLabel value="Tecnology" className="md:text-lg" />
                         <div className="flex justify-center gap-2 mt-1">
@@ -180,7 +174,7 @@ export default function Create({ auth }) {
                             </button>
                         </div>
                         <InputError
-                            message={errors.link}
+                            message={errors.technologies}
                             className="mt-2"
                         ></InputError>
                         {/* Menampilkan Tecnology */}
@@ -205,6 +199,8 @@ export default function Create({ auth }) {
                             ))}
                         </div>
                     </div>
+                    {/* End input tecnology */}
+
                     {/* Drag and Drop untuk gambar */}
                     <div className="mt-4">
                         <InputLabel
@@ -270,8 +266,9 @@ export default function Create({ auth }) {
                         ></InputError>
                     </div>
                     {/* End Drag and Drop untuk gambar*/}
+
                     {/* Tampilkan preview gambar */}
-                    <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                         {previewImages.map((src, index) => (
                             <div
                                 key={index}
@@ -299,6 +296,8 @@ export default function Create({ auth }) {
                         ))}
                     </div>
                     {/* End Tampilkan preview gambar */}
+
+                    {/* Button */}
                     <div className="flex justify-end">
                         <button
                             type="submit"
@@ -331,6 +330,7 @@ export default function Create({ auth }) {
                             {processing ? "Processing..." : "Submit"}
                         </button>
                     </div>
+                    {/* End button */}
                 </form>
             </div>
         </AdminLayout>
