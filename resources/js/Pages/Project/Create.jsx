@@ -3,7 +3,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextArea from "@/Components/textArea";
 import TextInput from "@/Components/TextInput";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaTrash } from "react-icons/fa";
@@ -32,6 +32,20 @@ export default function Create({ auth }) {
         },
         [data.images]
     );
+
+    const handleRemoveImage = (index) => {
+        console.log("Before removing image:", data.images);
+
+        setPreviewImages((prevImages) =>
+            prevImages.filter((_, i) => i !== index)
+        );
+
+        setData((prevData) => {
+            const updatedImages = prevData.images.filter((_, i) => i !== index);
+            console.log("After removing image:", updatedImages); // Debugging state update
+            return { ...prevData, images: updatedImages };
+        });
+    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
@@ -64,6 +78,7 @@ export default function Create({ auth }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        console.log("Images before submit:", data.images); // Debugging
         // console.log("Submitting data:", data);
         post(route("project.store"), {
             forceFormData: true,
@@ -81,7 +96,7 @@ export default function Create({ auth }) {
         >
             <Head title="Dashboard" />
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-4xl font-extrabold text-white-100">
+                <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white-100">
                     Create Project
                 </h1>
             </div>
@@ -277,11 +292,7 @@ export default function Create({ auth }) {
                                 <button
                                     type="button"
                                     className="bg-transparent group relative"
-                                    onClick={() => {
-                                        const newPreviews = [...previewImages];
-                                        newPreviews.splice(index, 1);
-                                        setPreviewImages(newPreviews);
-                                    }}
+                                    onClick={() => handleRemoveImage(index)}
                                 >
                                     <img
                                         src={src}
@@ -298,10 +309,16 @@ export default function Create({ auth }) {
                     {/* End Tampilkan preview gambar */}
 
                     {/* Button */}
-                    <div className="flex justify-end">
+                    <div className="flex justify-end gap-2">
+                        <Link
+                            href={route("project.index")}
+                            className="bg-gray-100 py-2 px-2 rounded-md md:rounded-lg text-gray-800  shadow transition-all hover:bg-gray-200 flex items-center"
+                        >
+                            Cancel
+                        </Link>
                         <button
                             type="submit"
-                            className="p-3 font-bold bg-green-1000 text-white rounded-lg flex items-center gap-2"
+                            className="font-bold py-2 px-2 rounded-md md:rounded-lg bg-green-1000 text-gray-2000 flex items-center gap-2"
                             disabled={processing}
                         >
                             {processing && (

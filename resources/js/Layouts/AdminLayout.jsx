@@ -1,10 +1,16 @@
 import NavbarDashboard from "@/Components/NavbarDashboard";
 import Sidebar from "@/Components/Sidebar";
 import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AdminLayout({ user, header, children }) {
-    const [showSidebar, setShowSidebar] = useState(true);
+    const [showSidebar, setShowSidebar] = useState(
+        localStorage.getItem("showSidebar") === "false" ? false : true
+    );
+
+    useEffect(() => {
+        localStorage.setItem("showSidebar", showSidebar);
+    }, [showSidebar]);
 
     return (
         <div className="flex bg-gray-1000 overflow-y-hidden">
@@ -27,8 +33,8 @@ export default function AdminLayout({ user, header, children }) {
                 {/* End Navbar */}
                 <div
                     className={`transition-all duration-300 ease-in-out ${
-                        showSidebar ? "ml-64" : "ml-20"
-                    } mt-20 px-6 pt-6 bg-gray-1000 min-h-screen text-white`}
+                        showSidebar ? "md:ml-52 lg:ml-64" : "ml-0 md:ml-20"
+                    } mt-16 md:mt-20 px-6 pt-6 bg-gray-1000 min-h-screen text-white`}
                 >
                     <main>{children}</main>
                 </div>

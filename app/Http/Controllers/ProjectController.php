@@ -45,16 +45,19 @@ class ProjectController extends Controller
     
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $path = $image->store('public/project_images'); 
+                $path = $image->store('public/project_images');
                 ProjectImage::create([
                     'project_id' => $project->id,
                     'image_path' => 'project_images/' . basename($path),
                 ]);
+                \Log::info("New image added with path: $path");
             }
         }
     
         return redirect()->route('project.index')->with('successCreated', 'Project was created!');
     }
+    
+    
 
     /**
      * Display the specified resource.

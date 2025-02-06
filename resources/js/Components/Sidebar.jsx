@@ -1,9 +1,10 @@
 import { RiDashboard2Fill } from "react-icons/ri";
 import { AiOutlineFolderOpen } from "react-icons/ai";
 import { PiCertificateBold } from "react-icons/pi";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export default function Sidebar({ showSidebar }) {
+    const { url } = usePage();
     const navLink = [
         {
             label: "Dashboard",
@@ -13,6 +14,7 @@ export default function Sidebar({ showSidebar }) {
         {
             label: "Project",
             route: "project.index",
+            match: (path) => path.startsWith("/project"),
             icon: <AiOutlineFolderOpen className="text-2xl" />,
         },
         {
@@ -24,15 +26,15 @@ export default function Sidebar({ showSidebar }) {
 
     return (
         <aside
-            className={`h-screen w-full md:w-0 fixed z-20 md:z-0 ${
+            className={`h-screen md:w-0 fixed z-20 md:z-0 ${
                 showSidebar
-                    ? "dark:bg-white-100/10 backdrop-blur-sm h-screen w-full md:bg-transparent"
-                    : "bg-transparent"
+                    ? "dark:bg-white-100/10 backdrop-blur-sm h-screen md:bg-transparent w-full"
+                    : "bg-transparent w-0"
             } `}
         >
             <nav
-                className={`p-4 h-screen fixed top-20 bg-gray-2000 text-white border-r border-gray-500 transition-all duration-300 ease-in-out z-50 
-        ${showSidebar ? "w-64 block" : "w-20 hidden"} md:block`}
+                className={`p-4 h-screen fixed top-16 md:top-20 bg-gray-2000 text-white border-r border-gray-500 transition-all duration-300 ease-in-out z-50 
+        ${showSidebar ? "w-60 md:w-52 lg:w-64 block" : "w-20 hidden"} md:block`}
             >
                 <ul>
                     {navLink.map((d, i) => (
@@ -41,10 +43,9 @@ export default function Sidebar({ showSidebar }) {
                             href={route(d.route)}
                             className={`flex items-center gap-4 py-2 mb-4 rounded-md transition-all duration-200 ease-in-out 
                         ${
+                            (d.match && d.match(url)) ||
                             route().current(d.route)
-                                ? !showSidebar
-                                    ? "text-green-1000 bg-gray-1000"
-                                    : "text-green-1000 bg-gray-1000"
+                                ? "text-green-1000 bg-gray-1000"
                                 : "text-gray-500 hover:bg-gray-1000 hover:text-green-1000"
                         } 
                         ${

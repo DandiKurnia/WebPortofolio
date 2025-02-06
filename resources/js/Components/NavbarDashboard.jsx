@@ -34,8 +34,8 @@ export default function NavbarDashboard({
     }, []);
 
     return (
-        <nav className="bg-gray-2000 text-white w-full h-20 flex items-center justify-between px-6 fixed text-white-100 border-b border-gray-500 z-50">
-            <div className="flex items-center gap-4 md:gap-6">
+        <nav className="bg-gray-2000 text-white w-full h-16 md:h-20 flex items-center justify-between px-4 lg:px-6 fixed text-white-100 border-b border-gray-500 z-50">
+            <div className="flex items-center gap-2 md:gap-4 lg:gap-6">
                 <button
                     onClick={() => setShowSidebar(!showSidebar)}
                     className="text-2xl hover:bg-gray-1000 p-2 rounded-md hover:text-green-1000"
@@ -52,14 +52,14 @@ export default function NavbarDashboard({
                         <HiOutlineMenuAlt1 className="hover:text-green-1000" />
                     )}
                 </button>
-                <div className="text-xl md:text-2xl lg:text-4xl font-bold">
+                <div className="text-xl md:text-3xl lg:text-4xl font-bold">
                     DanBilDad
                 </div>
                 <TextInput
                     id="name"
                     type="text"
                     placeholder="Search"
-                    className="w-60 lg:w-96 hidden md:block"
+                    className="w-60 lg:w-96 hidden lg:block"
                 />
             </div>
             <div className="relative space-x-4">
@@ -73,7 +73,7 @@ export default function NavbarDashboard({
                     }}
                 >
                     <div className="flex items-center gap-4 cursor-pointer hover:opacity-70">
-                        <FaUserCircle className="text-4xl hidden md:block" />
+                        <FaUserCircle className="text-3xl lg:text-4xl hidden md:block" />
                         <span className="cursor-pointer">{userName}</span>
                     </div>
                     {isProfileDropdownOpen && (

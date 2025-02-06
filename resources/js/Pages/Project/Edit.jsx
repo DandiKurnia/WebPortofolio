@@ -115,7 +115,7 @@ export default function Create({ auth, project }) {
         >
             <Head title="Edit Project" />
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-4xl font-extrabold text-white-100">
+                <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white-100">
                     Edit Project
                 </h1>
                 {/* <pre className="text-white">
@@ -363,7 +363,7 @@ export default function Create({ auth, project }) {
                         </Link>
                         <button
                             type="submit"
-                            className="p-3 font-bold bg-green-1000 text-white rounded-lg flex items-center gap-2"
+                            className="font-bold py-2 px-2 rounded-md md:rounded-lg bg-green-1000 text-gray-2000 flex items-center gap-2"
                             disabled={processing}
                         >
                             {processing && (

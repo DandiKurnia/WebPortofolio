@@ -19,23 +19,16 @@ export default function Index({
         router.delete(route("project.destroy", project.id));
     };
     return (
-        <AdminLayout
-            user={auth.user}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                    Dashboard
-                </h2>
-            }
-        >
+        <AdminLayout user={auth.user}>
             <Head title="Project" />
             {/* <pre className="text-white">{projects?.data?.length ?? 0}</pre> */}
 
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-4xl font-extrabold text-white-100">
+                <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white-100">
                     Project
                 </h1>
                 <Link
-                    className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90"
+                    className="group inline-flex px-3 py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90"
                     href={route("project.create")}
                 >
                     <p className="font-bold text-sm md:text-base">Create</p>
@@ -54,12 +47,12 @@ export default function Index({
             )}
             {/* End alert */}
 
-            <div className="bg-gray-2000 p-6 rounded-sm">
+            <div className="bg-gray-2000 p-4 md:p-6 rounded-sm">
                 <div className="overflow-x-auto">
                     <table className="text-left text-white-100 w-full">
                         <thead className="border-b-2 border-gray-400 text-x rtl:text-right uppercase bg-gray-1000 rounded-sm">
                             <tr className="text-nowrap">
-                                <th className="p-3">Image</th>
+                                <th className="p-3 hidden md:block">Image</th>
                                 <th className="p-3">Title</th>
                                 <th className="p-3">Action</th>
                             </tr>
@@ -71,7 +64,7 @@ export default function Index({
                                         key={project.id}
                                         className="border-gray-400 border-b"
                                     >
-                                        <td className="px-3 py-3">
+                                        <td className="px-3 py-3 hidden md:block">
                                             {project.images.length > 0 && (
                                                 <img
                                                     src={
@@ -79,7 +72,7 @@ export default function Index({
                                                             .image_path
                                                     }
                                                     alt="Project Image"
-                                                    className="w-20 h-20 object-cover rounded"
+                                                    className="w-20 h-20 md:w-24 md:h-24 object-cover rounded"
                                                 />
                                             )}
                                         </td>
@@ -113,7 +106,7 @@ export default function Index({
                                         colSpan="3"
                                         className="text-center py-3"
                                     >
-                                        Tidak ada proyek
+                                        Tidak ada project
                                     </td>
                                 </tr>
                             )}
