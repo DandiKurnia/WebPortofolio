@@ -9,7 +9,7 @@ import { useDropzone } from "react-dropzone";
 import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
-export default function Create({ auth, project }) {
+export default function Edit({ auth, project }) {
     const { data, post, setData, processing, errors } = useForm({
         title: project.title || "",
         description: project.description || "",
@@ -32,7 +32,7 @@ export default function Create({ auth, project }) {
     // Handle file drop
     const onDrop = useCallback(
         (acceptedFiles) => {
-            console.log("Dropped files:", acceptedFiles); // Debugging
+            // console.log("Dropped files:", acceptedFiles);
             setData((prevData) => ({
                 ...prevData,
                 newImages: [...prevData.newImages, ...acceptedFiles],
@@ -50,7 +50,7 @@ export default function Create({ auth, project }) {
     // Preview gambar
     const previewFiles = (files) => {
         const newPreviews = files.map((file) => {
-            console.log("Generating preview for:", file.name); // Debugging
+            // console.log("Generating preview for:", file.name);
             return URL.createObjectURL(file);
         });
 
@@ -200,7 +200,7 @@ export default function Create({ auth, project }) {
                                 value={newTech}
                                 onChange={(e) => setNewTech(e.target.value)}
                                 className="block w-full"
-                                placeholder="https://github.com/dandikurnia"
+                                placeholder="Laravel"
                             />
                             <button
                                 type="button"
@@ -302,10 +302,21 @@ export default function Create({ auth, project }) {
                             </div>
                         </div>
 
-                        <InputError
-                            message={errors.images}
-                            className="mt-2"
-                        ></InputError>
+                        {Object.keys(errors)
+                            .filter((key) => key.startsWith("newImages"))
+                            .map((key, index) => {
+                                // Mendapatkan indeks gambar dari key (contoh: "images.0" -> 1)
+                                const imageIndex = key.split(".")[1];
+                                return (
+                                    <InputError
+                                        key={index}
+                                        message={`The new image ${
+                                            parseInt(imageIndex) + 1
+                                        } size must not exceed ${errors[key]}`}
+                                        className="mt-2"
+                                    ></InputError>
+                                );
+                            })}
                     </div>
                     {/* End Drag and Drop untuk gambar*/}
 

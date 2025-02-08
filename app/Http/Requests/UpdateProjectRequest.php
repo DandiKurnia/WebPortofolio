@@ -31,7 +31,14 @@ class UpdateProjectRequest extends FormRequest
             'technologies' => 'required|array',
             'technologies.*' => 'string|max:255',
             'newImages' => 'nullable|array',
-            'newImages.*' => 'nullable|mimes:jpeg,jpg,png,gif|max:2048',
+            'newImages.*' => 'nullable|mimes:jpeg,jpg,png,gif|max:4096',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'newImages.*.max' => '4MB.',
         ];
     }
     

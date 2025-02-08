@@ -1,6 +1,5 @@
 import NavbarDashboard from "@/Components/NavbarDashboard";
 import Sidebar from "@/Components/Sidebar";
-import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 export default function AdminLayout({ user, header, children }) {
@@ -10,14 +9,24 @@ export default function AdminLayout({ user, header, children }) {
 
     useEffect(() => {
         localStorage.setItem("showSidebar", showSidebar);
+        if (showSidebar) {
+            document.body.classList.add(
+                ...["overflow-hidden", "md:overflow-auto"]
+            );
+        } else {
+            document.body.classList.remove(
+                ...["overflow-hidden", "md:overflow-auto"]
+            );
+        }
+        return () => document.body.classList.remove("overflow-hidden");
     }, [showSidebar]);
 
     return (
-        <div className="flex bg-gray-1000 overflow-y-hidden">
+        <div className="flex bg-gray-1000">
             {/* SIDEBAR */}
             <div
                 className={`fixed inset-y-0 left-0 z-50 ${
-                    showSidebar ? "w-64" : "w-20"
+                    showSidebar ? "w-64" : ""
                 } transition-all duration-300 ease-in-out`}
             >
                 <Sidebar showSidebar={showSidebar} />

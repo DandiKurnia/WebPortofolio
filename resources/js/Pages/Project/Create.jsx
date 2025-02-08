@@ -34,7 +34,7 @@ export default function Create({ auth }) {
     );
 
     const handleRemoveImage = (index) => {
-        console.log("Before removing image:", data.images);
+        // console.log("Before removing image:", data.images);
 
         setPreviewImages((prevImages) =>
             prevImages.filter((_, i) => i !== index)
@@ -42,7 +42,7 @@ export default function Create({ auth }) {
 
         setData((prevData) => {
             const updatedImages = prevData.images.filter((_, i) => i !== index);
-            console.log("After removing image:", updatedImages); // Debugging state update
+            // console.log("After removing image:", updatedImages); // Debugging state update
             return { ...prevData, images: updatedImages };
         });
     };
@@ -78,7 +78,7 @@ export default function Create({ auth }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log("Images before submit:", data.images); // Debugging
+        // console.log("Images before submit:", data.images);
         // console.log("Submitting data:", data);
         post(route("project.store"), {
             forceFormData: true,
@@ -178,7 +178,7 @@ export default function Create({ auth }) {
                                 value={newTech}
                                 onChange={(e) => setNewTech(e.target.value)}
                                 className="block w-full"
-                                placeholder="https://github.com/dandikurnia"
+                                placeholder="Laravel"
                             />
                             <button
                                 type="button"
@@ -275,10 +275,21 @@ export default function Create({ auth }) {
                             </div>
                         </div>
 
-                        <InputError
-                            message={errors.images}
-                            className="mt-2"
-                        ></InputError>
+                        {Object.keys(errors)
+                            .filter((key) => key.startsWith("images"))
+                            .map((key, index) => {
+                                // Mendapatkan indeks gambar dari key (contoh: "images.0" -> 1)
+                                const imageIndex = key.split(".")[1];
+                                return (
+                                    <InputError
+                                        key={index}
+                                        message={`The image ${
+                                            parseInt(imageIndex) + 1
+                                        } size must not exceed ${errors[key]}`}
+                                        className="mt-2"
+                                    ></InputError>
+                                );
+                            })}
                     </div>
                     {/* End Drag and Drop untuk gambar*/}
 
