@@ -33,6 +33,7 @@ export default function Create({ auth }) {
         [data.images]
     );
 
+    // Handle file remove
     const handleRemoveImage = (index) => {
         // console.log("Before removing image:", data.images);
 
@@ -59,6 +60,7 @@ export default function Create({ auth }) {
         ]);
     };
 
+    // Handle add tecnology
     const handleAddTech = () => {
         if (newTech.trim() !== "") {
             setData((prevData) => ({
@@ -69,6 +71,7 @@ export default function Create({ auth }) {
         }
     };
 
+    // Handle Remove tecnology
     const handleRemoveTech = (index) => {
         setData((prevData) => ({
             ...prevData,
@@ -76,6 +79,7 @@ export default function Create({ auth }) {
         }));
     };
 
+    // Handle submit
     const onSubmit = (e) => {
         e.preventDefault();
         // console.log("Images before submit:", data.images);

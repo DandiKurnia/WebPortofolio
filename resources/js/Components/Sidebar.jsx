@@ -19,7 +19,8 @@ export default function Sidebar({ showSidebar }) {
         },
         {
             label: "Certificate",
-            route: "welcome",
+            route: "certificate.index",
+            match: (path) => path.startsWith("/certificate"),
             icon: <PiCertificateBold className="text-2xl" />,
         },
     ];

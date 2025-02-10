@@ -50,7 +50,6 @@ export default function Edit({ auth, project }) {
     // Preview gambar
     const previewFiles = (files) => {
         const newPreviews = files.map((file) => {
-            // console.log("Generating preview for:", file.name);
             return URL.createObjectURL(file);
         });
 
@@ -118,9 +117,6 @@ export default function Edit({ auth, project }) {
                 <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white-100">
                     Edit Project
                 </h1>
-                {/* <pre className="text-white">
-                    {JSON.stringify(project, null, 2)}
-                </pre> */}
             </div>
             <div className="bg-gray-2000 p-6 rounded-sm">
                 <form onSubmit={onSubmit} encType="multipart/form-data">
