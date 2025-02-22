@@ -117,8 +117,8 @@ export default function ModalCertif({ onClose, certificate = null }) {
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full h-screen bg-gray-100/10 backdrop-blur-sm z-50 md:overflow-y-hidden xl:overflow-y-auto transition-all">
-            <div className="md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto md:my-10 lg:my-6 xl:my-8 xxl:my-10 bg-gray-1000 p-4 rounded-none md:rounded-lg shadow-lg text-white-100">
+        <div className="fixed top-0 left-0 w-full h-screen bg-gray-100/10 backdrop-blur-sm z-50 md:overflow-y-hidden xl:overflow-y-auto transition-all animate-[fadeIn_0.3s_ease-out_forwards]">
+            <div className="md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto md:my-10 lg:my-6 xl:my-8 xxl:my-10 bg-gray-1000 p-4 rounded-none md:rounded-lg shadow-lg text-white-100 animate-[cardPop_0.5s_0.2s_ease-out_forwards] opacity-0">
                 <div className="flex justify-end -mt-1 mb-5">
                     <button
                         onClick={onClose}
@@ -128,7 +128,7 @@ export default function ModalCertif({ onClose, certificate = null }) {
                     </button>
                 </div>
 
-                <div className="h-screen md:h-[80vh] p-2 xl:p-0 overflow-auto">
+                <div className="h-screen md:h-[80vh] p-2 xl:p-0 overflow-auto animate-[fadeUp_0.5s_0.4s_ease-out_forwards] opacity-0">
                     <form onSubmit={onSubmit}>
                         <div className="mb-4">
                             <InputLabel value="Title" />

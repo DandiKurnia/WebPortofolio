@@ -22,18 +22,18 @@ export default function AdminLayout({ user, header, children }) {
     }, [showSidebar]);
 
     return (
-        <div className="flex bg-gray-1000">
+        <div className="flex bg-gray-1000 min-h-screen">
             {/* SIDEBAR */}
             <div
                 className={`fixed inset-y-0 left-0 z-50 ${
                     showSidebar ? "w-64" : ""
-                } transition-all duration-300 ease-in-out`}
+                } transition-all duration-300 ease-in-out h-full`}
             >
                 <Sidebar showSidebar={showSidebar} />
             </div>
 
             {/* CONTENT */}
-            <div className="flex-1">
+            <div className="flex-1 flex flex-col">
                 <NavbarDashboard
                     setShowSidebar={setShowSidebar}
                     showSidebar={showSidebar}
@@ -43,7 +43,7 @@ export default function AdminLayout({ user, header, children }) {
                 <div
                     className={`transition-all duration-300 ease-in-out ${
                         showSidebar ? "md:ml-52 lg:ml-64" : "ml-0 md:ml-20"
-                    } mt-16 md:mt-20 px-6 pt-6 bg-gray-1000 min-h-screen text-white`}
+                    } mt-16 md:mt-20 px-6 pt-6 bg-gray-1000 flex-grow text-white`}
                 >
                     <main>{children}</main>
                 </div>

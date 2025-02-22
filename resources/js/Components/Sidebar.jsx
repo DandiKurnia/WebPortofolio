@@ -14,30 +14,32 @@ export default function Sidebar({ showSidebar }) {
         {
             label: "Project",
             route: "project.index",
-            match: (path) => path.startsWith("/project"),
+            match: (path) => path.startsWith("/admin/project"),
             icon: <AiOutlineFolderOpen className="text-2xl" />,
         },
         {
             label: "Certificate",
             route: "certificate.index",
-            match: (path) => path.startsWith("/certificate"),
+            match: (path) => path.startsWith("/admin/certificate"),
             icon: <PiCertificateBold className="text-2xl" />,
         },
     ];
 
     return (
         <aside
-            className={`h-screen md:w-0 fixed z-20 md:z-0 ${
+            className={`h-full md:w-0 fixed z-20 md:z-0 ${
                 showSidebar
-                    ? "dark:bg-white-100/10 backdrop-blur-sm h-screen md:bg-transparent w-full"
+                    ? "dark:bg-white-100/10 backdrop-blur-sm h-full md:bg-transparent w-full"
                     : "bg-transparent w-0"
             } `}
         >
             <nav
-                className={`p-4 h-screen fixed top-16 md:top-20 bg-gray-2000 text-white border-r border-gray-500 transition-all duration-300 ease-in-out z-50 
-        ${showSidebar ? "w-60 md:w-52 lg:w-64 block" : "w-20 hidden"} md:block`}
+                className={`p-4 h-full fixed top-16 md:top-20 bg-gray-2000 text-white border-r border-gray-500 transition-all duration-300 ease-in-out z-50 overflow-y-auto 
+                ${
+                    showSidebar ? "w-60 md:w-52 lg:w-64 block" : "w-20 hidden"
+                } md:block`}
             >
-                <ul>
+                <ul className="pb-20">
                     {navLink.map((d, i) => (
                         <Link
                             key={i}

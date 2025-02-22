@@ -219,9 +219,9 @@ export default function Index({
             {/* Modal */}
             {showModal && selectedProject && (
                 <div
-                    className={`fixed top-0 left-0 w-full h-screen bg-gray-100/10 backdrop-blur-sm z-50 md:overflow-y-hidden xl:overflow-y-auto transition-all`}
+                    className={`fixed top-0 left-0 w-full h-screen bg-gray-100/10 backdrop-blur-sm z-50 md:overflow-y-hidden xl:overflow-y-auto transition-all animate-[fadeIn_0.3s_ease-out_forwards]`}
                 >
-                    <div className="md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto md:my-10 lg:my-6 xl:my-8 xxl:my-10 bg-gray-1000 p-4  rounded-none md:rounded-lg shadow-lg text-white-100">
+                    <div className="md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto md:my-10 lg:my-6 xl:my-8 xxl:my-10 bg-gray-1000 p-4 rounded-none md:rounded-lg shadow-lg text-white-100 animate-[cardPop_0.5s_0.2s_ease-out_forwards] opacity-0">
                         <div className="flex justify-end -mt-1 mb-5">
                             <button
                                 onClick={() => setShowModal(false)}
@@ -238,7 +238,7 @@ export default function Index({
                             {/* Bagian kiri (Deskripsi) */}
                             <div
                                 ref={leftPanelRef}
-                                className="xl:w-1/3 xl:sticky xl:top-0 xl:self-start xl:max-h-[80vh] overflow-hidden"
+                                className="xl:w-1/3 xl:sticky xl:top-0 xl:self-start xl:max-h-[80vh] overflow-hidden animate-[fadeUp_0.5s_0.4s_ease-out_forwards] opacity-0"
                             >
                                 <h2 className="font-bold text-2xl">
                                     {selectedProject.title}
@@ -278,7 +278,7 @@ export default function Index({
                             {/* Bagian kanan (Gambar) */}
                             <div
                                 ref={rightPanelRef}
-                                className="xl:w-2/3 xl:overflow-y-auto xl:px-4"
+                                className="xl:w-2/3 xl:overflow-y-auto xl:px-4 animate-[fadeUp_0.5s_0.6s_ease-out_forwards] opacity-0"
                             >
                                 {selectedProject.images.length > 0 && (
                                     <div className="flex flex-wrap gap-2 mb-20 md:mb-0">

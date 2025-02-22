@@ -1,57 +1,77 @@
 import { Link } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
 
 export default function Navbar({}) {
     const [isSideMenuOpen, setMenu] = useState(false);
+    useEffect(() => {
+        if (isSideMenuOpen) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        // Pastikan cleanup selalu dijalankan ketika component unmount
+        return () => {
+            document.body.classList.remove("overflow-hidden");
+        };
+    }, [isSideMenuOpen]);
 
     const navLink = [
         {
             label: "Home",
-            link: "#",
+            link: route("home"),
+            isHash: false,
         },
         {
-            label: "About Me",
-            link: "#",
+            label: "Project",
+            link: "#project",
+            isHash: true,
         },
         {
-            label: "Service",
-            link: "#",
-        },
-        {
-            label: "Skill",
-            link: "#",
+            label: "Contact",
+            link: "#contact",
+            isHash: true,
         },
     ];
+
+    const handleScroll = (e, link, isHash) => {
+        if (isHash) {
+            e.preventDefault();
+            const element = document.querySelector(link);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+                setMenu(false); // Tutup menu mobile jika terbuka
+            }
+        }
+    };
 
     return (
         <nav className="py-8 dark:text-white-100">
             <section className="flex items-center gap-4 justify-between">
-                <Link className="text-4xl font-mono" href={route("welcome")}>
+                <Link className="text-4xl font-mono" href={route("home")}>
                     Logo
                 </Link>
                 <FiMenu
                     className="text-3xl cursor-pointer md:hidden hover:opacity-60"
                     onClick={() => setMenu(true)}
+                    aria-label="Buka menu"
+                    role="button"
                 />
                 <div className="hidden md:flex gap-4 md:gap-10 items-center">
                     {navLink.map((d, i) => (
                         <Link
                             key={i}
-                            className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
-                            }`}
+                            className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group`}
                             href={d.link}
+                            onClick={(e) => handleScroll(e, d.link, d.isHash)}
                         >
                             {d.label}
-                            {/* Garis bawah yang muncul dari kiri ke kanan */}
                             <span className="absolute left-0 bottom-0 w-full h-[2px] bg-green-1000 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700 rounded-full"></span>
                         </Link>
                     ))}
                 </div>
-                <Link className="bg-green-1000 font-bold dark:text-gray-1000 px-4 py-1 rounded-full transition hover:scale-110 duration-500 hidden md:flex">
-                    Contact Me
-                </Link>
             </section>
             {/* Sidebar mobile Menu */}
             <div
@@ -69,25 +89,27 @@ export default function Navbar({}) {
                     <div className="flex justify-between items-center mt-0 mb-8">
                         <Link
                             className="text-4xl font-mono"
-                            href={route("welcome")}
+                            href={route("home")}
                         >
                             Logo
                         </Link>
                         <IoCloseOutline
                             onClick={() => setMenu(false)}
                             className="text-3xl cursor-pointer hover:opacity-60"
+                            aria-label="Tutup menu"
+                            role="button"
                         />
                     </div>
                     {navLink.map((d, i) => (
-                        <Link
+                        <a
                             key={i}
                             className="relative font-bold hover:text-green-1000 group"
                             href={d.link}
+                            onClick={(e) => handleScroll(e, d.link, d.isHash)}
                         >
                             {d.label}
-                            {/* Garis di kiri */}
                             <span className="absolute left-[-0.7rem] top-0 h-full w-[2px] bg-green-1000 scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></span>
-                        </Link>
+                        </a>
                     ))}
                 </section>
             </div>

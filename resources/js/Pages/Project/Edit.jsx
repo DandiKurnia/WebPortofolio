@@ -227,8 +227,12 @@ export default function Edit({ auth, project }) {
                                 >
                                     {tech}
                                     <button
+                                        type="button"
                                         className="ml-2 text-white-100"
-                                        onClick={() => handleRemoveTech(index)}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleRemoveTech(index);
+                                        }}
                                     >
                                         <IoMdClose className="hover:text-gray-400" />
                                     </button>
