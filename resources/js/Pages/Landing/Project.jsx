@@ -1,24 +1,37 @@
 import LandingLayout from "@/Layouts/LandingLayout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ModalCardProject from "@/Components/ModalCardProject";
 import { FiArrowUpRight } from "react-icons/fi";
 
 export default function Project({ projects }) {
     const [selectedProject, setSelectedProject] = useState(null);
     const [showModalProject, setShowModalProject] = useState(false);
+    const [visibleCards, setVisibleCards] = useState([]);
 
     const showModal = (project) => {
         setSelectedProject(project);
         setShowModalProject(true);
     };
 
+    useEffect(() => {
+        // Menampilkan card secara berurutan
+        projects.data.forEach((_, index) => {
+            setTimeout(() => {
+                setVisibleCards((prev) => [...prev, index]);
+            }, index * 200); // 200ms delay untuk setiap card
+        });
+    }, []);
+
     return (
         <LandingLayout>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 md:py-8 [&>*:nth-child(1)]:animate-[fadeIn_0.5s_0.1s_ease-out_forwards] [&>*:nth-child(2)]:animate-[fadeIn_0.5s_0.3s_ease-out_forwards] [&>*:nth-child(3)]:animate-[fadeIn_0.5s_0.5s_ease-out_forwards] [&>*:nth-child(4)]:animate-[fadeIn_0.5s_0.7s_ease-out_forwards]">
-                {projects.data.map((project) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6 md:py-8">
+                {projects.data.map((project, index) => (
                     <div
-                        className={`bg-gray-2000 rounded-2xl p-4 shadow-lg`}
+                        className="bg-gray-2000 rounded-2xl p-4 shadow-lg opacity-0"
                         key={project.id}
+                        style={{
+                            animation: `fadeIn 0.5s ${index * 0.2}s forwards`,
+                        }}
                     >
                         <div className="rounded-lg overflow-hidden aspect-[3/2] bg-cover">
                             <img

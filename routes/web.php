@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageConroller;
 use App\Http\Controllers\ProfileController;
@@ -27,5 +28,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/admin/project', ProjectController::class);
     Route::resource('/admin/certificate', CertificateController::class);
 });
+
+Route::post('/chat/send', [ChatController::class, 'send']);
+Route::get('/chat', function () {
+    return Inertia\Inertia::render('Chat');
+});
+
+
+
 
 require __DIR__.'/auth.php';

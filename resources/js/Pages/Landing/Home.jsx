@@ -2,7 +2,7 @@ import { Link, Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
+import { BsBrowserChrome } from "react-icons/bs";
 import Card from "../../Components/Card";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -11,6 +11,7 @@ import ModalCardProject from "../../Components/ModalCardProject";
 import LandingLayout from "@/Layouts/LandingLayout";
 import { BsMouse } from "react-icons/bs";
 import Squares from "@/Components/Squares";
+
 // Typing
 const TypingAnimation = ({ text = "", typingSpeed = 100 }) => {
     const [displayedText, setDisplayedText] = useState("");
@@ -66,16 +67,16 @@ const InfiniteScrollMarquee = ({ images }) => {
             {/* Wrapper untuk kedua marquee */}
             <div className="marquee-wrapper flex hover:pause-marquee">
                 {/* Bagian pertama marquee */}
-                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[600%] md:w-[300%] lg:w-[190%] xl:w-[200%]">
+                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[550%] md:w-[320%] lg:w-[230%] xl:w-[210%]">
                     {images.map((image, index) => (
                         <div
                             key={index}
-                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center"
+                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center h-full"
                         >
                             <div className="flex items-center md:items-stretch gap-3">
-                                <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center">
+                                <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center h-full">
                                     <img
-                                        className="w-[1.4rem] md:h-auto md:w-[1.5rem] xl:w-[1.95rem]"
+                                        className="max-w-[1.4rem] md:max-w-[1.5rem] xl:max-w-[1.95rem] max-h-[1.4rem] md:max-h-[1.5rem] xl:max-h-[1.95rem]"
                                         src={image.src}
                                         alt={`Image ${index + 1}`}
                                     />
@@ -93,18 +94,17 @@ const InfiniteScrollMarquee = ({ images }) => {
                     ))}
                 </div>
                 {/* End Bagian pertama marquee */}
-
                 {/* Bagian kedua marquee */}
-                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[600%] md:w-[300%] lg:w-[190%] xl:w-[200%]">
+                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[550%] md:w-[320%] lg:w-[230%] xl:w-[210%]">
                     {images.map((image, index) => (
                         <div
                             key={index}
-                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center"
+                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center h-full"
                         >
                             <div className="flex items-center md:items-stretch gap-3">
-                                <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center">
+                                <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center h-full">
                                     <img
-                                        className="w-[1.4rem] md:h-auto md:w-[1.5rem] xl:w-[1.95rem]"
+                                        className="max-w-[1.4rem] md:max-w-[1.5rem] xl:max-w-[1.95rem] max-h-[1.4rem] md:max-h-[1.5rem] xl:max-h-[1.95rem]"
                                         src={image.src}
                                         alt={`Image ${index + 1}`}
                                     />
@@ -121,7 +121,7 @@ const InfiniteScrollMarquee = ({ images }) => {
                         </div>
                     ))}
                 </div>
-                {/* End Bagian Kedua marquee */}
+                {/* Bagian Kedua marquee  */}
             </div>
         </div>
     );
@@ -208,7 +208,7 @@ export default function Home({ projects, certificates }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("contact.store"), {
+        post(route("send.email"), {
             onSuccess: () => {
                 reset("name", "email", "message");
             },
@@ -284,33 +284,51 @@ export default function Home({ projects, certificates }) {
     const footLink = [
         {
             label: "Home",
-            link: "#",
+            link: route("home"),
+            isHash: false,
         },
         {
-            label: "About Me",
-            link: "#",
+            label: "Project",
+            link: "#project",
+            isHash: true,
         },
         {
             label: "Service",
-            link: "#",
+            link: "#contact",
+            isHash: true,
         },
         {
             label: "Instagram",
-            link: "#",
-        },
-        {
-            label: "X",
-            link: "#",
+            link: "https://www.instagram.com/dputrxx/",
+            isHash: false,
         },
         {
             label: "Linkein",
-            link: "#",
+            link: "https://www.linkedin.com/in/dandi-kurnia-putra-927935221/",
+            isHash: false,
         },
         {
             label: "GitHub",
-            link: "#",
+            link: "https://github.com/dandikurnia",
+            isHash: false,
+        },
+        {
+            label: "Website",
+            link: "https://dandihub.my.id/",
+            isHash: false,
         },
     ];
+
+    const handleScroll = (e, link, isHash) => {
+        if (isHash) {
+            e.preventDefault();
+            const element = document.querySelector(link);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+                setMenu(false); // Tutup menu mobile jika terbuka
+            }
+        }
+    };
 
     const firstPart = footLink.slice(0, 3);
     const secondPart = footLink.slice(3);
@@ -353,7 +371,7 @@ export default function Home({ projects, certificates }) {
             <div className="relative flex items-center justify-center min-h-[45vh] md:min-h-[40vh] lg:min-h-[60vh]">
                 <div className="absolute inset-0 z-0">
                     <Squares
-                        speed={0.15}
+                        speed={0.25}
                         squareSize={30}
                         direction="down"
                         borderColor="rgba(37, 36, 36, 0.3)"
@@ -364,11 +382,13 @@ export default function Home({ projects, certificates }) {
                     {/* Hello I'm section */}
                     <div className="flex items-center space-x-2 md:space-x-4 dark:text-white-100 animate-on-scroll slide-from-left mb-4">
                         <span className="w-[2rem] *:md:w-[5rem] h-[2px] bg-green-1000"></span>
-                        <h1 className="font-bold md:text-2xl">Hello, I'm</h1>
+                        <h1 className="font-semibold md:text-2xl">
+                            Hello, I'm
+                        </h1>
                     </div>
 
                     {/* Name section */}
-                    <h1 className="font-bold text-5xl md:text-6xl lg:text-7xl xl:text-9xl mb-4 md:mb-5 text-gradient text-center">
+                    <h1 className="font-semibold text-5xl md:text-6xl lg:text-7xl xl:text-9xl mb-4 md:mb-5 text-gradient text-center">
                         Dandi Kurnia <br /> Putra
                     </h1>
 
@@ -465,7 +485,7 @@ export default function Home({ projects, certificates }) {
                         className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90"
                     >
                         <div className="flex items-center gap-3">
-                            <p className="font-bold text-sm md:text-base">
+                            <p className="font-semibold text-sm md:text-base">
                                 View all work
                             </p>
                             <IoIosArrowForward className="transition-transform transform group-hover:translate-x-1" />
@@ -483,7 +503,7 @@ export default function Home({ projects, certificates }) {
                         />
                     ))}
                 </div>
-                {/* End Caed */}
+                {/* End Card */}
             </div>
             {/* End PAGE 3 */}
 
@@ -545,11 +565,11 @@ export default function Home({ projects, certificates }) {
                                 <FaGithub className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                             </a>
                             <a
-                                href="https://www.linkedin.com/in/dandi-kurnia-putra-927935221/"
+                                href="https://dandihub.my.id/"
                                 target="_blank"
                                 className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000"
                             >
-                                <FaSquareXTwitter className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
+                                <BsBrowserChrome className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                             </a>
                         </div>
                     </div>
@@ -649,7 +669,7 @@ export default function Home({ projects, certificates }) {
                         </p>
                         <Link className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
                             <div className="flex items-center gap-3">
-                                <p className="font-bold text-sm md:text-base">
+                                <p className="font-semibold text-sm md:text-base">
                                     Start project
                                 </p>
                                 <IoIosArrowForward className="transition-transform transform group-hover:translate-x-1" />
@@ -668,6 +688,13 @@ export default function Home({ projects, certificates }) {
                                             className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
                             }`}
                                             href={d.link}
+                                            onClick={(e) =>
+                                                handleScroll(
+                                                    e,
+                                                    d.link,
+                                                    d.isHash
+                                                )
+                                            }
                                         >
                                             {d.label}
                                             {/* Garis bawah yang muncul dari kiri ke kanan */}
@@ -684,23 +711,24 @@ export default function Home({ projects, certificates }) {
                             <ul className="space-y-2">
                                 {secondPart.map((d, i) => (
                                     <li key={i}>
-                                        <Link
+                                        <a
                                             key={i}
                                             className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group
                         }`}
                                             href={d.link}
+                                            target="_blank"
                                         >
                                             {d.label}
                                             {/* Garis bawah yang muncul dari kiri ke kanan */}
                                             <span className="absolute left-0 bottom-0 w-full h-[2px] bg-green-1000 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-700 rounded-full"></span>
-                                        </Link>
+                                        </a>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     </div>
                 </div>
-                <p className="text-gray-400 text-end py-5">
+                <p className="text-gray-400 text-center md:text-end py-5">
                     &copy; 2025 Dandi Kurnia. All rights reserved.
                 </p>
             </footer>

@@ -21,7 +21,7 @@ export default function Card({ className, dataPorject, showModal }) {
             {/* Content */}
             <div className="mt-4 flex gap-2 justify-between items-center text-white">
                 <div className="text">
-                    <h3 className="text-base md:text-2xl text-white-100 font-bold mb-3 capitalize">
+                    <h3 className="text-base md:text-2xl text-white-100 font-bold mb-3 line-clamp-1 capitalize">
                         {dataPorject.title}
                     </h3>
 
@@ -48,7 +48,8 @@ export default function Card({ className, dataPorject, showModal }) {
                 <div className="block">
                     <button
                         onClick={() => showModal(dataPorject)}
-                        className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-green-1000 text-black rounded-lg  transition"
+                        className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-green-1000 text-black rounded-lg transition"
+                        aria-label="showModal"
                     >
                         <FiArrowUpRight className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                     </button>

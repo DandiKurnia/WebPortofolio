@@ -50,8 +50,8 @@ export default function Navbar({}) {
     return (
         <nav className="py-8 dark:text-white-100">
             <section className="flex items-center gap-4 justify-between">
-                <Link className="text-4xl font-mono" href={route("home")}>
-                    Logo
+                <Link className="text-3xl font-mono" href={route("home")}>
+                    DanBilDad
                 </Link>
                 <FiMenu
                     className="text-3xl cursor-pointer md:hidden hover:opacity-60"
@@ -63,7 +63,7 @@ export default function Navbar({}) {
                     {navLink.map((d, i) => (
                         <Link
                             key={i}
-                            className={`relative font-bold border-b-2 border-transparent hover:border-transparent transition duration-700 group`}
+                            className={`relative font-semibold border-b-2 border-transparent hover:border-transparent transition duration-700 group`}
                             href={d.link}
                             onClick={(e) => handleScroll(e, d.link, d.isHash)}
                         >
@@ -72,6 +72,15 @@ export default function Navbar({}) {
                         </Link>
                     ))}
                 </div>
+                <a
+                    className="bg-green-1000  font-semibold dark:text-gray-1000 px-2 py-2 rounded-lg transition hover:scale-110 duration-500 hidden md:flex"
+                    href="/assets/documents/resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download="resume.pdf"
+                >
+                    Download CV
+                </a>
             </section>
             {/* Sidebar mobile Menu */}
             <div
@@ -88,10 +97,10 @@ export default function Navbar({}) {
                 >
                     <div className="flex justify-between items-center mt-0 mb-8">
                         <Link
-                            className="text-4xl font-mono"
+                            className="text-3xl font-mono"
                             href={route("home")}
                         >
-                            Logo
+                            DanBilDad
                         </Link>
                         <IoCloseOutline
                             onClick={() => setMenu(false)}
@@ -111,6 +120,16 @@ export default function Navbar({}) {
                             <span className="absolute left-[-0.7rem] top-0 h-full w-[2px] bg-green-1000 scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></span>
                         </a>
                     ))}
+                    <a
+                        className="relative font-bold hover:text-green-1000 group"
+                        href="/assets/documents/resume.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        download="resume.pdf"
+                    >
+                        Download CV
+                        <span className="absolute left-[-0.7rem] top-0 h-full w-[2px] bg-green-1000 scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></span>
+                    </a>
                 </section>
             </div>
         </nav>

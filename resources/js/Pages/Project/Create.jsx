@@ -11,9 +11,9 @@ import { IoMdClose } from "react-icons/io";
 
 export default function Create({ auth }) {
     const { data, post, setData, processing, errors } = useForm({
-        title: "",
-        description: "",
-        link: "",
+        // title: "",
+        // description: "",
+        // link: "",
         technologies: [], // Default empty array
         images: [],
     });
