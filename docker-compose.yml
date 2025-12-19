@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+    app:
+        build: .
+        container_name: webportofolio
+        restart: unless-stopped
+        expose:
+            - "9000" # internal only
+        networks:
+            - app_net
+        security_opt:
+            - apparmor=unconfined
+
+networks:
+    app_net:
+        external: true
