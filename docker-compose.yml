@@ -2,15 +2,17 @@ version: "3.8"
 
 services:
     app:
-        build: .
-        container_name: webportofolio
+        image: ghcr.io/dandikurnia/webportofolio:latest
+        container_name: webportofolio-app
         restart: unless-stopped
-        expose:
-            - "9000" # internal only
+        ports:
+            - "8080:80"
+        env_file:
+            - .env
+        volumes:
+            - ./storage:/var/www/html/storage
         networks:
             - app_net
-        security_opt:
-            - apparmor=unconfined
 
 networks:
     app_net:

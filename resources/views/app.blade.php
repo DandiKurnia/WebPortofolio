@@ -8,9 +8,10 @@
         @routes
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+
         @inertiaHead
     </head>
-    <body class="bg-gray-1000">
+    <body class="bg-gray-1000 text-white-100">
         @inertia
     </body>
 </html>

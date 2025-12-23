@@ -197,3 +197,9 @@ body,
         background-size: 100% 100%;
     }
 }
+
+@layer base {
+    body {
+        @apply bg-gray-1000 text-white-100;
+    }
+}

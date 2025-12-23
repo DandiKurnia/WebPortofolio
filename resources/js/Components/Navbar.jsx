@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
 
-export default function Navbar({}) {
+export default function Navbar({ resume }) {
     const [isSideMenuOpen, setMenu] = useState(false);
     useEffect(() => {
         if (isSideMenuOpen) {
@@ -74,10 +74,12 @@ export default function Navbar({}) {
                 </div>
                 <a
                     className="bg-green-1000  font-semibold dark:text-gray-1000 px-2 py-2 rounded-lg transition hover:scale-110 duration-500 hidden md:flex"
-                    href="/assets/documents/resume.pdf"
-                    target="_blank"
+                    href={
+                        resume
+                            ? route("resume.preview", { resume: resume.id })
+                            : "#"
+                    }
                     rel="noopener noreferrer"
-                    download="resume.pdf"
                 >
                     Download CV
                 </a>

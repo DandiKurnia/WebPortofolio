@@ -199,7 +199,7 @@ const scrollAnimationClasses = {
     scaleUpVisible: "scale-100 opacity-100",
 };
 
-export default function Home({ projects, certificates }) {
+export default function Home({ projects, certificates, resume }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
@@ -314,7 +314,7 @@ export default function Home({ projects, certificates }) {
         },
         {
             label: "Website",
-            link: "https://dandihub.my.id/",
+            link: "https://danbildad.my.id/",
             isHash: false,
         },
     ];
@@ -365,7 +365,7 @@ export default function Home({ projects, certificates }) {
     }, []);
 
     return (
-        <LandingLayout>
+        <LandingLayout resume={resume}>
             <Head title="MyPortofolio" />
             {/* PAGE 1 */}
             <div className="relative flex items-center justify-center min-h-[45vh] md:min-h-[40vh] lg:min-h-[60vh]">

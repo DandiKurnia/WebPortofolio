@@ -13,7 +13,6 @@ export default function Index({
     successEdit,
     successDelete,
 }) {
-    const [showModal, setShowModal] = useState(false);
     const [showModalCertif, setShowModalCertif] = useState(false);
     const [selectedCertificate, setSelectedCertificate] = useState(null);
     const modalRef = useRef(null);
@@ -22,7 +21,7 @@ export default function Index({
 
     // Show modal overflow
     useEffect(() => {
-        if (showModalCertif || showModal) {
+        if (showModalCertif) {
             document.body.classList.add("overflow-hidden");
             document.body.classList.remove("md:overflow-auto");
         } else {
@@ -30,9 +29,8 @@ export default function Index({
         }
 
         return () => document.body.classList.remove("overflow-hidden");
-    }, [showModalCertif, showModal]);
+    }, [showModalCertif]);
 
-    // Handle right scroll
     useEffect(() => {
         const handleRightScroll = () => {
             if (modalRef.current && leftPanelRef.current) {
@@ -60,13 +58,13 @@ export default function Index({
                 );
             }
         };
-    }, [showModal]);
+    }, [showModalCertif]);
 
     useEffect(() => {
-        if (showModal && modalRef.current) {
+        if (showModalCertif && modalRef.current) {
             modalRef.current.scrollTop = 0;
         }
-    }, [showModal]);
+    }, [showModalCertif]);
 
     useEffect(() => {
         const syncScroll = () => {
@@ -91,16 +89,10 @@ export default function Index({
                 rightPanelRef.current.removeEventListener("scroll", syncScroll);
             }
         };
-    }, [showModal]);
-
-    // Modal show certificate
-    const showCertificate = (certificate) => {
-        setSelectedCertificate(certificate);
-        setShowModal(true);
-    };
+    }, [showModalCertif]);
 
     const openshowModalCertif = () => {
-        setSelectedCertificate(null); // Reset jika Create
+        setSelectedCertificate(null);
         setShowModalCertif(true);
     };
 
@@ -128,7 +120,7 @@ export default function Index({
                     Certificate
                 </h1>
                 <Button
-                    onClick={() => openshowModalCertif(true)}
+                    onClick={() => openshowModalCertif()}
                     className="group inline-flex px-3 py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90"
                 >
                     <p className="font-bold text-sm md:text-base">Create</p>

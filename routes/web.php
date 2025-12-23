@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageConroller;
 use App\Http\Controllers\ProfileController;
@@ -18,6 +17,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return redirect()->route('home');
 });
+Route::get('/resume/preview/{resume}', [DashboardController::class, 'resumePreview'])->name('resume.preview');
 
 // Auth routes group
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -25,16 +25,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard');
+    Route::post('/resume', [DashboardController::class, "resumeStore"])->name('resume.store');
+    Route::put('/resume/{resume}', [DashboardController::class, "resumeUpdate"])->name('resume.update');
     Route::resource('/admin/project', ProjectController::class);
     Route::resource('/admin/certificate', CertificateController::class);
 });
 
-Route::post('/chat/send', [ChatController::class, 'send']);
-Route::get('/chat', function () {
-    return Inertia\Inertia::render('Chat');
-});
 
 
 
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
