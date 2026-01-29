@@ -20,6 +20,5 @@ yarn-error.log
 .dockerignore
 Dockerfile
 docker-compose.yml
-/nginx
 /storage/*
 /backupdatabase/*
