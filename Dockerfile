@@ -43,7 +43,8 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 COPY nginx/default.conf /etc/nginx/sites-available/default
 
 # Permissions (penting untuk volume)
-RUN chown -R www-data:www-data storage bootstrap/cache \
+RUN mkdir -p storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
 # Healthcheck untuk monitoring (compatible dengan LXC)
