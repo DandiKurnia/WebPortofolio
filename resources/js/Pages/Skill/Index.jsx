@@ -1,35 +1,34 @@
-import { useEffect, useState, useRef } from "react";
+import Pagination from "@/Components/Pagination";
 import SuccessMessage from "@/Components/SuccessMessage";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head, router } from "@inertiajs/react";
-import Pagination from "@/Components/Pagination";
 import { Button } from "@headlessui/react";
-import ModalCertif from "./ModalCertif";
+import { Head, router } from "@inertiajs/react";
+import { useEffect } from "react";
+import { useRef } from "react";
+import { useState } from "react";
+import ModalSkill from "./ModalSkill";
 
 export default function Index({
     auth,
-    certificates,
+    skills,
     successCreated,
     successEdit,
     successDelete,
 }) {
-    const [showModalCertif, setShowModalCertif] = useState(false);
-    const [selectedCertificate, setSelectedCertificate] = useState(null);
+    const [showModalSkill, setShowModalSkill] = useState(false);
+    const [selectedSkill, setSelectedSkill] = useState(null);
     const modalRef = useRef(null);
     const leftPanelRef = useRef(null);
     const rightPanelRef = useRef(null);
 
-    // Show modal overflow
     useEffect(() => {
-        if (showModalCertif) {
+        if (showModalSkill) {
+            document.body.classList.remove("overflow-auto");
             document.body.classList.add("overflow-hidden");
-            document.body.classList.remove("md:overflow-auto");
         } else {
             document.body.classList.remove("overflow-hidden");
         }
-
-        return () => document.body.classList.remove("overflow-hidden");
-    }, [showModalCertif]);
+    }, [showModalSkill]);
 
     useEffect(() => {
         const handleRightScroll = () => {
@@ -58,13 +57,13 @@ export default function Index({
                 );
             }
         };
-    }, [showModalCertif]);
+    }, [showModalSkill]);
 
     useEffect(() => {
-        if (showModalCertif && modalRef.current) {
+        if (showModalSkill && modalRef.current) {
             modalRef.current.scrollTop = 0;
         }
-    }, [showModalCertif]);
+    }, [showModalSkill]);
 
     useEffect(() => {
         const syncScroll = () => {
@@ -89,17 +88,17 @@ export default function Index({
                 rightPanelRef.current.removeEventListener("scroll", syncScroll);
             }
         };
-    }, [showModalCertif]);
+    }, [showModalSkill]);
 
-    const openshowModalCertif = () => {
-        setSelectedCertificate(null);
-        setShowModalCertif(true);
+    const openshowModalSkill = () => {
+        setShowModalSkill(true);
+        setSelectedSkill(null);
     };
 
     const openEditModal = (certificate) => {
         // console.log("Certificate yang dikirim ke modal:", certificate);
-        setSelectedCertificate(certificate); // Isi dengan data sertifikat
-        setShowModalCertif(true);
+        setSelectedSkill(certificate); // Isi dengan data sertifikat
+        setShowModalSkill(true);
     };
 
     // deleteCertificate
@@ -111,16 +110,16 @@ export default function Index({
         }
         router.delete(route("certificate.destroy", certificate.id));
     };
-
     return (
         <AdminLayout user={auth.user}>
-            <Head title="Certificate" />
+            <Head title="Skill" />
+
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-xl md:text-3xl lg:text-4xl font-extrabold text-white-100">
-                    Certificate
+                    Skill
                 </h1>
                 <Button
-                    onClick={() => openshowModalCertif()}
+                    onClick={() => openshowModalSkill()}
                     className="group inline-flex px-3 py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90"
                 >
                     <p className="font-bold text-sm md:text-base">Create</p>
@@ -145,34 +144,28 @@ export default function Index({
                     <table className="text-left text-white-100 w-full">
                         <thead className="border-b-2 border-gray-400 text-x rtl:text-right uppercase bg-gray-1000 rounded-sm">
                             <tr className="text-nowrap">
-                                <th className="p-3 hidden md:block">Image</th>
                                 <th className="p-3">Title</th>
+                                <th className="p-3">Description</th>
                                 <th className="p-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {certificates?.data?.length > 0 ? (
-                                certificates.data.map((certificate) => (
+                            {skills?.data?.length > 0 ? (
+                                skills.data.map((skill) => (
                                     <tr
-                                        key={certificate.id}
+                                        key={skill.id}
                                         className="border-gray-400 border-b"
                                     >
-                                        <td className="px-3 py-3 hidden md:block">
-                                            <img
-                                                src={
-                                                    certificate.certificate_image
-                                                }
-                                                alt="Certificate Image"
-                                                className="w-20 h-20 md:w-24 md:h-24 object-cover rounded"
-                                            />
+                                        <td className="px-3 py-3">
+                                            {skill.title}
                                         </td>
                                         <td className="px-3 py-3">
-                                            {certificate.title}
+                                            {skill.description}
                                         </td>
                                         <td className="text-nowrap px-3 py-3">
                                             <button
                                                 onClick={() =>
-                                                    openEditModal(certificate)
+                                                    openEditModal(skill)
                                                 }
                                                 className="font-medium text-yellow-500 hover:underline mx-1"
                                             >
@@ -181,9 +174,7 @@ export default function Index({
 
                                             <button
                                                 onClick={() =>
-                                                    deleteCertificate(
-                                                        certificate,
-                                                    )
+                                                    deleteCertificate(skill)
                                                 }
                                                 className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
                                             >
@@ -198,15 +189,15 @@ export default function Index({
                                         colSpan="3"
                                         className="text-center py-3"
                                     >
-                                        Tidak ada certificate
+                                        Tidak ada Skill
                                     </td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
                 </div>
-                {certificates?.data?.length > 0 ? (
-                    <Pagination links={certificates.meta.links} />
+                {skills?.data?.length > 0 ? (
+                    <Pagination links={skills.meta.links} />
                 ) : (
                     ""
                 )}
@@ -214,10 +205,10 @@ export default function Index({
             {/* End Content */}
 
             {/* Modal */}
-            {showModalCertif && (
-                <ModalCertif
-                    onClose={() => setShowModalCertif(false)}
-                    certificate={selectedCertificate}
+            {showModalSkill && (
+                <ModalSkill
+                    onClose={() => setShowModalSkill(false)}
+                    skill={selectedSkill}
                 />
             )}
             {/* Modal */}

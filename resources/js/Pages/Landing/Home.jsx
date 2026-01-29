@@ -1,6 +1,7 @@
+import React from "react";
 import { Link, Head, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 import { FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import { BsBrowserChrome } from "react-icons/bs";
 import Card from "../../Components/Card";
@@ -60,33 +61,33 @@ const TypingAnimation = ({ text = "", typingSpeed = 100 }) => {
 };
 // end Typing
 
-//  infinite horizontal scroll
-const InfiniteScrollMarquee = ({ images }) => {
+//  infinite horizontal scroll skill
+const InfiniteScrollMarquee = ({ dataSkill = { data: [] } }) => {
     return (
         <div className="w-full overflow-hidden whitespace-nowrap animate">
             {/* Wrapper untuk kedua marquee */}
             <div className="marquee-wrapper flex hover:pause-marquee">
                 {/* Bagian pertama marquee */}
-                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[550%] md:w-[320%] lg:w-[230%] xl:w-[210%]">
-                    {images.map((image, index) => (
+                <div className="animate-marquee flex-shrink-0 justify-evenly flex whitespace-nowrap">
+                    {dataSkill.data.map((skill) => (
                         <div
-                            key={index}
-                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center h-full"
+                            key={skill.id}
+                            className="p-2 xl:p-3 mx-1 md:mx-2 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center h-full"
                         >
                             <div className="flex items-center md:items-stretch gap-3">
                                 <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center h-full">
                                     <img
-                                        className="max-w-[1.4rem] md:max-w-[1.5rem] xl:max-w-[1.95rem] max-h-[1.4rem] md:max-h-[1.5rem] xl:max-h-[1.95rem]"
-                                        src={image.src}
-                                        alt={`Image ${index + 1}`}
+                                        className="max-w-[1.4rem] md:max-w-[1.5rem] xl:max-w-[1.95rem] max-h-[1.4rem] md:max-h-[1.5rem] xl:max-h-[1.95rem] image"
+                                        src={skill.image}
+                                        alt={skill.title}
                                     />
                                 </div>
                                 <div>
                                     <p className="text-white-100 text-xs md:text-sm xl:text-lg font-semibold">
-                                        {image.title}
+                                        {skill.title}
                                     </p>
                                     <p className="text-white-100 text-xs md:text-sm xl:text-base">
-                                        {image.description}
+                                        {skill.description}
                                     </p>
                                 </div>
                             </div>
@@ -95,26 +96,26 @@ const InfiniteScrollMarquee = ({ images }) => {
                 </div>
                 {/* End Bagian pertama marquee */}
                 {/* Bagian kedua marquee */}
-                <div className="animate-marquee flex-shrink-0 justify-around flex whitespace-nowrap w-[550%] md:w-[320%] lg:w-[230%] xl:w-[210%]">
-                    {images.map((image, index) => (
+                <div className="animate-marquee flex-shrink-0 justify-evenly flex whitespace-nowrap">
+                    {dataSkill.data.map((skill) => (
                         <div
-                            key={index}
-                            className="p-2 xl:p-3 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center h-full"
+                            key={skill.id}
+                            className="p-2 xl:p-3 mx-1 md:mx-2 border border-gray-2000 rounded-xl hover:border-none hover:bg-gray-2000 group flex content-center h-full"
                         >
                             <div className="flex items-center md:items-stretch gap-3">
                                 <div className="bg-gray-2000 group-hover:bg-gray-1000 p-2 rounded-xl flex items-center h-full">
                                     <img
                                         className="max-w-[1.4rem] md:max-w-[1.5rem] xl:max-w-[1.95rem] max-h-[1.4rem] md:max-h-[1.5rem] xl:max-h-[1.95rem]"
-                                        src={image.src}
-                                        alt={`Image ${index + 1}`}
+                                        src={skill.image}
+                                        alt={skill.title}
                                     />
                                 </div>
                                 <div>
                                     <p className="text-white-100 text-xs md:text-sm xl:text-lg font-semibold">
-                                        {image.title}
+                                        {skill.title}
                                     </p>
                                     <p className="text-white-100 text-xs md:text-sm xl:text-base">
-                                        {image.description}
+                                        {skill.description}
                                     </p>
                                 </div>
                             </div>
@@ -126,11 +127,10 @@ const InfiniteScrollMarquee = ({ images }) => {
         </div>
     );
 };
-//  end infinite horizontal scroll
+//  end infinite horizontal scroll skill
 
 //  infinite horizontal scroll certif
 const InfiniteScrollCertif = ({
-    imageCertifs,
     reverse = false,
     dataCertif = { data: [] },
 }) => {
@@ -189,17 +189,7 @@ const InfiniteScrollCertif = ({
 };
 //  end infinite horizontal scroll certif
 
-// Tambahkan kelas CSS baru untuk animasi scroll
-const scrollAnimationClasses = {
-    fadeUp: "opacity-0 translate-y-10 transition-all duration-700 ease-out",
-    fadeUpVisible: "opacity-100 translate-y-0",
-    fadeIn: "opacity-0 transition-opacity duration-700 ease-out",
-    fadeInVisible: "opacity-100",
-    scaleUp: "scale-95 opacity-0 transition-all duration-700 ease-out",
-    scaleUpVisible: "scale-100 opacity-100",
-};
-
-export default function Home({ projects, certificates, resume }) {
+export default function Home({ projects, certificates, resume, skills }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
@@ -214,71 +204,6 @@ export default function Home({ projects, certificates, resume }) {
             },
         });
     };
-
-    // Image Skill
-    const images = [
-        {
-            src: "/assets/img/html.png",
-            title: "HTML",
-            description: "Markup Language",
-        },
-        {
-            src: "/assets/img/php.png",
-            title: "PHP",
-            description: "Back-End",
-        },
-        {
-            src: "/assets/img/js.png",
-            title: "JavaScript",
-            description: "Front-End",
-        },
-        {
-            src: "/assets/img/tailwind.png",
-            title: "Tailwind",
-            description: "CSS Framework",
-        },
-        {
-            src: "/assets/img/bootstrap.png",
-            title: "Bootstrap",
-            description: "CSS Framework",
-        },
-        {
-            src: "/assets/img/laravel.png",
-            title: "Laravel",
-            description: "Back-End",
-        },
-        {
-            src: "/assets/img/inertia.png",
-            title: "Inertia",
-            description: "Front-End Bridge",
-        },
-        {
-            src: "/assets/img/react.png",
-            title: "React",
-            description: "Front-End",
-        },
-        {
-            src: "/assets/img/vite.png",
-            title: "Vite",
-            description: "Build Tool",
-        },
-        {
-            src: "/assets/img/flutter.png",
-            title: "Flutter",
-            description: "Mobile Framework",
-        },
-        {
-            src: "/assets/img/postman.png",
-            title: "Postman",
-            description: "API Testing",
-        },
-        {
-            src: "/assets/img/github.png",
-            title: "GitHub",
-            description: "Version Control",
-        },
-    ];
-    // END Image Skill
 
     // Footer Link
     const footLink = [
@@ -354,7 +279,7 @@ export default function Home({ projects, certificates, resume }) {
             },
             {
                 threshold: 0.1,
-            }
+            },
         );
 
         document.querySelectorAll(".animate-on-scroll").forEach((el) => {
@@ -383,7 +308,7 @@ export default function Home({ projects, certificates, resume }) {
                     <div className="flex items-center space-x-2 md:space-x-4 dark:text-white-100 animate-on-scroll slide-from-left mb-4">
                         <span className="w-[2rem] *:md:w-[5rem] h-[2px] bg-green-1000"></span>
                         <h1 className="font-semibold md:text-2xl">
-                            Hello, I'm
+                            Hello, I&apos;m
                         </h1>
                     </div>
 
@@ -412,7 +337,7 @@ export default function Home({ projects, certificates, resume }) {
             {/* End PAGE 1 */}
 
             {/* PAGE 2 */}
-            <div className="xs:my-6 md:my-12 lg:my-16 xl:my-20 animate-on-scroll">
+            <div className="my-6 xs:my-6 md:my-12 lg:my-16 xl:my-20 animate-on-scroll">
                 {/* Left */}
                 <h1 className="font-black text-2xl md:text-3xl xl:text-4xl mb-3 md:mb-4 text-gradient">
                     Essential skills I use
@@ -427,18 +352,18 @@ export default function Home({ projects, certificates, resume }) {
 
                 {/* Right */}
                 <div className="flex justify-center">
-                    <InfiniteScrollMarquee images={images} />
+                    <InfiniteScrollMarquee dataSkill={skills} />
                 </div>
                 {/* End Right */}
             </div>
             {/* End PAGE 2 */}
 
-            <div className="xs:my-6 md:my-12 lg:my-16 xl:my-20 scroll-reveal">
+            <div className="my-6 md:my-12 lg:my-16 xl:my-20 scroll-reveal">
                 <div className="m-auto border-2 bg-gray-2000 border-gray-2000 rounded-lg py-10 px-16">
                     <div className="w-[100%] md:w-[80%]">
                         <p className="text-center md:text-left">
                             <span className="text-xl">
-                                Hi, I'm Dandi, a full-stack developer
+                                Hi, I&apos;m Dandi, a full-stack developer
                                 specializing in Laravel, React, Flutter,
                                 Inertia.js, and Tailwind CSS. I build scalable
                                 web and mobile applications with a focus on
@@ -547,6 +472,7 @@ export default function Home({ projects, certificates, resume }) {
                                 href="https://www.instagram.com/dputrxx/"
                                 target="_blank"
                                 className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000"
+                                rel="noreferrer"
                             >
                                 <FaInstagram className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                             </a>
@@ -554,6 +480,7 @@ export default function Home({ projects, certificates, resume }) {
                                 href="https://www.linkedin.com/in/dandi-kurnia-putra-927935221/"
                                 target="_blank"
                                 className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000"
+                                rel="noreferrer"
                             >
                                 <FaLinkedin className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                             </a>
@@ -561,13 +488,15 @@ export default function Home({ projects, certificates, resume }) {
                                 href="https://github.com/dandikurnia"
                                 target="_blank"
                                 className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000"
+                                rel="noreferrer"
                             >
                                 <FaGithub className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                             </a>
                             <a
-                                href="https://dandihub.my.id/"
+                                href="https://danbildad.my.id/"
                                 target="_blank"
                                 className="group w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-gray-2000 text-white-100 rounded-lg transition hover:bg-white-100 hover:text-gray-2000"
+                                rel="noreferrer"
                             >
                                 <BsBrowserChrome className="text-2xl transition-transform transform group-hover:-translate-y-0.5" />
                             </a>
@@ -664,7 +593,7 @@ export default function Home({ projects, certificates, resume }) {
                 <div className="flex flex-col sm:flex-row justify-between gap-4 md:gap-0">
                     <div className=" w-full sm:w-1/2">
                         <p className="text-4xl xl:text-6xl mb-4 md:mb-5 xl:mb-8 text-white-100">
-                            Let's work <br />
+                            Let&apos;s work <br />
                             together today
                         </p>
                         <Link className="group inline-flex px-1 py-1 md:px-3 md:py-2 xl:px-4 xl:py-3 content-center bg-green-1000 dark:text-gray-1000 rounded-md md:rounded-xl hover:opacity-90">
@@ -692,7 +621,7 @@ export default function Home({ projects, certificates, resume }) {
                                                 handleScroll(
                                                     e,
                                                     d.link,
-                                                    d.isHash
+                                                    d.isHash,
                                                 )
                                             }
                                         >
@@ -717,6 +646,7 @@ export default function Home({ projects, certificates, resume }) {
                         }`}
                                             href={d.link}
                                             target="_blank"
+                                            rel="noreferrer"
                                         >
                                             {d.label}
                                             {/* Garis bawah yang muncul dari kiri ke kanan */}

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactFormMail;
 use App\Http\Requests\StoreResumeRequest;
 use App\Http\Requests\UpdateResumeRequest;
+use App\Models\Skill;
 
 class DashboardController extends Controller
 {
@@ -20,11 +21,13 @@ class DashboardController extends Controller
         $certificate = Certificate::query()->count();
         $project = Project::query()->count();
         $resume = Resume::latest()->first();
+        $skill = Skill::query()->count();
         return inertia("Dashboard/Index", [
             "user" => $user,
             "certificate" => $certificate,
             "project" => $project,
             "resume" => $resume,
+            "skill" => $skill,
             "successCreated" => session("success"),
         ]);
     }

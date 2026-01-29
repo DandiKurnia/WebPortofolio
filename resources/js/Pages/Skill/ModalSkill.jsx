@@ -1,63 +1,66 @@
-import { useEffect, useState, useCallback } from "react";
-import TextInput from "@/Components/TextInput";
-import InputLabel from "@/Components/InputLabel";
-import { IoMdClose } from "react-icons/io";
-import { FaTrash } from "react-icons/fa";
-import { useDropzone } from "react-dropzone";
-import { router } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
+import InputLabel from "@/Components/InputLabel";
+import TextInput from "@/Components/TextInput";
+import { router } from "@inertiajs/react";
+import { useCallback } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { FaTrash } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
-export default function ModalCertif({ onClose, certificate = null }) {
+export default function ModalSkill({ onClose, skill = null }) {
     const [formData, setFormData] = useState({
-        title: certificate ? certificate.title : "",
-        // Simpan image lama
-        certificate_image: certificate ? certificate.certificate_image : null,
-        // Gunakan untuk image baru
-        newcertificate_image: null,
+        title: skill?.title || "",
+        description: skill?.description || "",
+        image: skill?.image || "",
+
+        newImage: null,
     });
+
     const [errors, setErrors] = useState({});
     const [processing, setProcessing] = useState(false);
-    const [previewImages, setPreviewImages] = useState([]);
+    const [previewImages, setPreviewImage] = useState([]);
 
     useEffect(() => {
-        if (certificate) {
+        if (skill) {
             setFormData({
-                title: certificate.title || "",
-                certificate_image: certificate.certificate_image || null,
-                newcertificate_image: null,
+                title: skill.title || "",
+                image: skill.image || "",
+                description: skill.description || "",
+                newImage: null,
             });
 
-            if (certificate.certificate_image) {
-                setPreviewImages([certificate.certificate_image]);
+            if (skill.image) {
+                setPreviewImage([skill.image]);
             }
         }
-    }, [certificate]);
+    }, [skill]);
 
     const onDrop = useCallback((acceptedFiles) => {
         if (acceptedFiles.length > 0) {
             const file = acceptedFiles[0];
             setFormData((prev) => ({
                 ...prev,
-                // Simpan file baru di newcertificate_image
-                newcertificate_image: file,
+                newImage: file,
             }));
-            setPreviewImages([URL.createObjectURL(file)]);
+            setPreviewImage([URL.createObjectURL(file)]);
         }
     }, []);
 
     const handleRemoveImage = () => {
-        setPreviewImages([]);
+        setPreviewImage([]);
         setFormData((prev) => ({
             ...prev,
-            certificate_image: null,
-            newcertificate_image: null,
+            image: null,
+            newImage: null,
         }));
     };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
         accept: {
-            "image/*": [".jpeg", ".jpg", ".png"],
+            "image/*": [".png", ".jpg", ".jpeg"],
         },
     });
 
@@ -68,20 +71,17 @@ export default function ModalCertif({ onClose, certificate = null }) {
         try {
             const submitFormData = new FormData();
             submitFormData.append("title", formData.title.trim());
+            submitFormData.append("description", formData.description.trim());
 
-            // Jika ada file baru, kirim sebagai certificate_image
-            if (formData.newcertificate_image instanceof File) {
-                submitFormData.append(
-                    "certificate_image",
-                    formData.newcertificate_image,
-                );
+            if (formData.newImage instanceof File) {
+                submitFormData.append("image", formData.newImage);
             }
 
-            if (certificate) {
+            if (skill) {
                 submitFormData.append("_method", "PUT");
 
                 await router.post(
-                    route("certificate.update", certificate.id),
+                    route("skill.update", skill.id),
                     submitFormData,
                     {
                         forceFormData: true,
@@ -90,32 +90,32 @@ export default function ModalCertif({ onClose, certificate = null }) {
                             onClose();
                         },
                         onError: (errors) => {
-                            setErrors(errors);
                             setProcessing(false);
+                            setErrors(errors);
                         },
                         preserveState: true,
                     },
                 );
             } else {
-                await router.post(route("certificate.store"), submitFormData, {
+                await router.post(route("skill.store"), submitFormData, {
                     forceFormData: true,
                     onSuccess: () => {
                         setProcessing(false);
                         onClose();
                     },
                     onError: (errors) => {
-                        setErrors(errors);
                         setProcessing(false);
+                        setErrors(errors);
                     },
                     preserveState: true,
                 });
+                console.log();
             }
         } catch (error) {
-            console.error("Error submitting form:", error);
+            console.log(error);
             setProcessing(false);
         }
     };
-
     return (
         <div className="fixed top-0 left-0 w-full h-screen bg-gray-100/10 backdrop-blur-sm z-50 md:overflow-y-hidden xl:overflow-y-auto transition-all animate-[fadeIn_0.3s_ease-out_forwards]">
             <div className="md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto md:my-10 lg:my-6 xl:my-8 xxl:my-10 bg-gray-1000 p-4 rounded-none md:rounded-lg shadow-lg text-white-100 animate-[cardPop_0.5s_0.2s_ease-out_forwards] opacity-0">
@@ -151,7 +151,27 @@ export default function ModalCertif({ onClose, certificate = null }) {
                                 />
                             )}
                         </div>
-
+                        <div className="mb-4">
+                            <InputLabel value="Description" />
+                            <TextInput
+                                value={formData.description}
+                                type="text"
+                                name="description"
+                                onChange={(e) =>
+                                    setFormData((prev) => ({
+                                        ...prev,
+                                        description: e.target.value,
+                                    }))
+                                }
+                                className="w-full mt-2"
+                            />
+                            {errors.description && (
+                                <InputError
+                                    message={errors.description}
+                                    className="mt-2"
+                                />
+                            )}
+                        </div>
                         <div className="mb-4">
                             <InputLabel value="Upload Certificate" />
                             <div className="mt-4">
@@ -211,19 +231,21 @@ export default function ModalCertif({ onClose, certificate = null }) {
 
                             <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                                 {previewImages.length > 0 && (
-                                    <div className="relative inline-block">
+                                    <div className="relative">
                                         <button
                                             type="button"
                                             className="bg-transparent"
                                             onClick={handleRemoveImage}
                                         >
-                                            <img
-                                                src={previewImages[0]}
-                                                alt="Preview"
-                                                className="w-full h-auto rounded transition-opacity"
-                                            />
-                                            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity">
-                                                <FaTrash className="text-2xl text-white-100" />
+                                            <div className="relative inline-flex items-center justify-center">
+                                                <img
+                                                    src={previewImages[0]}
+                                                    alt="Preview"
+                                                    className="w-24 transition-opacity"
+                                                />
+                                                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity">
+                                                    <FaTrash className="text-2xl text-white-100" />
+                                                </div>
                                             </div>
                                         </button>
                                     </div>

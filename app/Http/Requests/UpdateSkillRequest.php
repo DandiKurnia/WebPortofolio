@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateResumeRequest extends FormRequest
+class UpdateSkillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,10 @@ class UpdateResumeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file|max:20480',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable',
+            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:20480',
         ];
     }
 }

@@ -7,6 +7,9 @@ use App\Http\Requests\StoreCertificateRequest;
 use App\Http\Requests\UpdateCertificateRequest;
 use App\Http\Resources\CertificateResource;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class CertificateController extends Controller
 {
@@ -16,7 +19,7 @@ class CertificateController extends Controller
     public function index()
     {
         $certificates = Certificate::paginate(10)->onEachSide(1);
-        return inertia('Certificate/Index',[
+        return inertia('Certificate/Index', [
             "certificates" => CertificateResource::collection($certificates),
             "successCreated" => session("successCreated"),
             "successEdit" => session("successEdit"),
@@ -38,24 +41,41 @@ class CertificateController extends Controller
     public function store(StoreCertificateRequest $request)
     {
         $data = $request->validated();
-        
-        if ($request->hasFile('certificate_image')) {
-            $data['certificate_image'] = $request->file('certificate_image')->store('certificate_images','public');
-        }
-    
-        Certificate::create($data);
-        \Log::info('Full request data:', $request->all());
-        \Log::info('Full request data2:', $data);
-        \Log::info('Session successCreated:', [session("successCreated")]);
 
-    
+        if ($request->hasFile('certificate_image')) {
+            $file = $request->file('certificate_image');
+
+            // Nama file unik + rapi
+            $name = Str::uuid()->toString();
+            $dir  = 'certificate_images';
+
+            // Baca image
+            $img = Image::read($file->getRealPath());
+
+            // Resize max width 1600px (biar tetap tajam tapi ringan)
+            $img->scaleDown(width: 1600);
+
+            // Simpan sebagai WEBP (quality 75–85 biasanya ideal)
+            $webpPath = "{$dir}/{$name}.webp";
+            Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
+
+            // Optional: thumbnail
+            // $thumb = Image::read($file->getRealPath())->scaleDown(width: 500);
+            // $thumbPath = "{$dir}/{$name}_thumb.webp";
+            // Storage::disk('public')->put($thumbPath, (string) $thumb->toWebp(75));
+
+            // Simpan path ke DB
+            $data['certificate_image'] = $webpPath;
+            // $data['certificate_thumb'] = $thumbPath; // kalau kolom ini ada
+        }
+
+        Certificate::create($data);
+
         return to_route('certificate.index')->with([
             'successCreated' => 'Project was created!',
         ]);
-        
-
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -78,37 +98,43 @@ class CertificateController extends Controller
      */
     public function update(UpdateCertificateRequest $request, Certificate $certificate)
     {
-        // Debug untuk melihat data yang dikirim
-        // dd($request->all());
-        \Log::info('Request all:', $request->all());
-        \Log::info('Files:', $request->allFiles());
-    
-        // Simpan title dulu
+        // \Log::info('Request all:', $request->all());
+        // \Log::info('Files:', $request->allFiles());
+
         $data['title'] = $request->title;
-    
-        // Jika ada file gambar baru di-upload
+
         if ($request->hasFile('certificate_image')) {
-            // Hapus gambar lama jika ada
             if ($certificate->certificate_image) {
                 Storage::disk('public')->delete($certificate->certificate_image);
             }
-    
-            // Simpan gambar baru
-            $data['certificate_image'] = $request->file('certificate_image')->store('certificate_images', 'public');
-        } else {
-            // Jika tidak ada file baru, gunakan gambar lama
-            $data['certificate_image'] = $certificate->certificate_image;
-        }
-    
-        // Update data sertifikat
-        $certificate->update($data);
-        \Log::info('Session successEdit:', [session("successEdit")]);
 
-    
-        return redirect()->route('certificate.index')->with('successEdit', 'Project updated successfully');
+            $file = $request->file('certificate_image');
+
+            $name = Str::uuid()->toString();
+            $dir  = 'certificate_images';
+
+            $img = Image::read($file->getRealPath());
+            $img->scaleDown(width: 1600);
+            $webpPath = "{$dir}/{$name}.webp";
+            Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
+
+            $thumb = Image::read($file->getRealPath())->scaleDown(width: 500);
+            $thumbPath = "{$dir}/{$name}_thumb.webp";
+            Storage::disk('public')->put($thumbPath, (string) $thumb->toWebp(75));
+
+            $data['certificate_image'] = $webpPath;
+            $data['certificate_thumb'] = $thumbPath;
+        } else {
+            $data['certificate_image'] = $certificate->certificate_image;
+            $data['certificate_thumb'] = $certificate->certificate_thumb;
+        }
+
+        $certificate->update($data);
+
+        return redirect()->route('certificate.index')->with('successEdit', 'Project was edited!');
     }
-    
-    
+
+
 
     /**
      * Remove the specified resource from storage.

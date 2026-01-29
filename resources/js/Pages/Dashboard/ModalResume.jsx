@@ -22,6 +22,7 @@ export default function ModalResume({ onClose, resume = null }) {
             });
             setPreviewResume(resume.file);
         }
+        console.log(resume);
     }, [resume]);
 
     const onDrop = useCallback((acceptedFiles) => {
@@ -40,6 +41,7 @@ export default function ModalResume({ onClose, resume = null }) {
             ...prev,
             file: null,
         }));
+        console.log(formData);
         setPreviewResume([]);
     };
 

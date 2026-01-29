@@ -1,6 +1,5 @@
 import { IoMdClose } from "react-icons/io";
 import { useRef, useEffect } from "react";
-import { Link } from "@inertiajs/react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 
 export default function ModalCardProject({ onClose, dataPorject, showModal }) {
@@ -47,7 +46,7 @@ export default function ModalCardProject({ onClose, dataPorject, showModal }) {
             if (modalRef.current) {
                 modalRef.current.removeEventListener(
                     "scroll",
-                    handleRightScroll
+                    handleRightScroll,
                 );
             }
         };
@@ -129,7 +128,7 @@ export default function ModalCardProject({ onClose, dataPorject, showModal }) {
                                         >
                                             {tech}
                                         </span>
-                                    )
+                                    ),
                                 )}
                             </div>
                         </div>

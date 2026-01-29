@@ -31,7 +31,7 @@ class UpdateProjectRequest extends FormRequest
             'technologies' => 'required|array',
             'technologies.*' => 'string|max:255',
             'newImages' => 'nullable|array',
-            'newImages.*' => 'nullable|mimes:jpeg,jpg,png,gif|max:4096',
+            'newImages.*' => 'nullable|mimes:jpeg,jpg,png,gif|max:20480',
         ];
     }
 
@@ -41,5 +41,4 @@ class UpdateProjectRequest extends FormRequest
             'newImages.*.max' => '4MB.',
         ];
     }
-    
 }

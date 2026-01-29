@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingPageConroller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/resume/{resume}', [DashboardController::class, "resumeUpdate"])->name('resume.update');
     Route::resource('/admin/project', ProjectController::class);
     Route::resource('/admin/certificate', CertificateController::class);
+    Route::resource('/admin/skill', SkillController::class);
 });
 
 

@@ -1,27 +1,36 @@
-import { Link } from "@inertiajs/react";
-import React, { useState } from "react";
+import React from "react";
 import { FiArrowUpRight } from "react-icons/fi";
 
 export default function Card({ className, dataPorject, showModal }) {
     return (
         <div
-            className={`bg-gray-2000 rounded-2xl p-4 shadow-lg ${className}`}
+            className={`bg-gray-2000 rounded-2xl p-3 lg:p-4 shadow-lg ${className}`}
             key={dataPorject.id}
         >
-            <div className="rounded-lg overflow-hidden aspect-[3/2] bg-cover">
+            <div className="rounded-lg overflow-hidden h-52 lg:h-72 xl:h-96 bg-cover">
                 <img
                     src={
                         dataPorject.images[0].image_path ||
                         "https://via.placeholder.com/400x250"
                     }
                     alt="Finance Landing Page"
-                    className="w-full h-full bg-cover"
+                    className="w-full h-full object-cover"
                 />
             </div>
+            {/* <div className="rounded-lg overflow-hidden h-96">
+                <img
+                    src={
+                        dataPorject.images[0].image_path ||
+                        "https://via.placeholder.com/400x250"
+                    }
+                    alt="Finance Landing Page"
+                    className="w-full h-full object-cover"
+                />
+            </div> */}
             {/* Content */}
             <div className="mt-4 flex gap-2 justify-between items-center text-white">
                 <div className="text">
-                    <h3 className="text-base md:text-2xl text-white-100 font-bold mb-3 line-clamp-1 capitalize">
+                    <h3 className="text-base md:text-xl lg:text-2xl text-white-100 font-bold mb-3 line-clamp-1 capitalize">
                         {dataPorject.title}
                     </h3>
 

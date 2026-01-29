@@ -1,6 +1,7 @@
 import { RiDashboard2Fill } from "react-icons/ri";
 import { AiOutlineFolderOpen } from "react-icons/ai";
 import { PiCertificateBold } from "react-icons/pi";
+import { AiFillControl } from "react-icons/ai";
 import { Link, usePage } from "@inertiajs/react";
 
 export default function Sidebar({ showSidebar }) {
@@ -22,6 +23,12 @@ export default function Sidebar({ showSidebar }) {
             route: "certificate.index",
             match: (path) => path.startsWith("/admin/certificate"),
             icon: <PiCertificateBold className="text-2xl" />,
+        },
+        {
+            label: "Skill",
+            route: "skill.index",
+            match: (path) => path.startsWith("/admin/skill"),
+            icon: <AiFillControl className="text-2xl" />,
         },
     ];
 

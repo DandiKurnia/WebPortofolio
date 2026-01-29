@@ -8,7 +8,9 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\ProjectImage;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ProjectController extends Controller
 {
@@ -42,22 +44,28 @@ class ProjectController extends Controller
         $data = $request->validated();
         $data['technologies'] = json_encode($data['technologies']);
         $project = Project::create($data);
-    
+
         if ($request->hasFile('images')) {
+            $dir = 'project_images';
+
             foreach ($request->file('images') as $image) {
-                $path = $image->store('public/project_images');
+                $name = (string) Str::uuid();
+
+                $img = Image::read($image->getRealPath());
+                $img->scaleDown(width: 1600);
+
+                $webpPath = "{$dir}/{$name}.webp";
+                Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
+
                 ProjectImage::create([
                     'project_id' => $project->id,
-                    'image_path' => 'project_images/' . basename($path),
+                    'image_path' => $webpPath, // simpan webp
                 ]);
-                \Log::info("New image added with path: $path");
             }
         }
-    
+
         return redirect()->route('project.index')->with('successCreated', 'Project was created!');
     }
-    
-    
 
     /**
      * Display the specified resource.
@@ -84,101 +92,81 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        \Log::info('Masuk ke ProjectController update method');
-    
+
         try {
             $data = $request->validated();
-            \Log::info('Update Project', ['request' => $data]);
-    
-            $data['technologies'] = json_encode($data['technologies']);
+
+            $data['technologies'] = json_encode($data['technologies'] ?? []);
             $project->update($data);
-            \Log::info('Project updated', ['project' => $project]);
-    
-            // Debugging: Periksa semua request data
-            \Log::info('Full request data:', $request->all());
-    
-            // 🔹 Tangkap `imagesToDelete`
+
             $imagesToDelete = $request->input('imagesToDelete', []);
-    
-            // Jika `imagesToDelete` adalah string JSON, decode dulu
             if (is_string($imagesToDelete)) {
                 $imagesToDelete = json_decode($imagesToDelete, true);
             }
-    
             if (!is_array($imagesToDelete)) {
                 $imagesToDelete = [];
             }
-    
-            \Log::info('After fix - imagesToDelete:', ['imagesToDelete' => $imagesToDelete]);
-    
-            // Hapus gambar jika ada
-            if (!empty($imagesToDelete)) {
-                foreach ($imagesToDelete as $imageId) {
-                    $image = ProjectImage::find($imageId);
-                    if ($image) {
-                        Storage::delete('public/' . $image->image_path);
-                        $image->delete();
-                        \Log::info("Deleted image ID: $imageId");
-                    }
+
+            foreach ($imagesToDelete as $imageId) {
+                $image = $project->images()->whereKey($imageId)->first();
+                if ($image) {
+                    Storage::disk('public')->delete($image->image_path);
+                    $image->delete();
                 }
-            } else {
-                \Log::warning("imagesToDelete is empty or not received properly.");
             }
 
-            // 🔹 Tangkap `newImages`
-            $newImages = $request->file('newImages', []);
+            $newImages = $request->file('newImages');
 
-            if (!empty($newImages)) {
+            if ($newImages) {
+                $newImages = is_array($newImages) ? $newImages : [$newImages];
+
+                $dir = 'project_images';
+
                 foreach ($newImages as $image) {
-                    // Menyimpan gambar ke dalam storage
-                    $path = $image->store('project_images', 'public');
-                    
-                    // Menambahkan path gambar baru ke database
-                    $project->images()->create([
-                        'image_path' => $path,
-                    ]);
-                    
-                    \Log::info("New image added with path: $path");
-                }
-            } else {
-                \Log::warning("No new images uploaded.");
-            }
+                    $name = (string) Str::uuid();
 
-    
+                    $img = Image::read($image->getRealPath());
+                    $img->scaleDown(width: 1600);
+
+                    $webpPath = "{$dir}/{$name}.webp";
+                    Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
+
+                    $project->images()->create([
+                        'image_path' => $webpPath,
+                    ]);
+                }
+            }
             return redirect()->route('project.index')->with('successEdit', 'Project updated successfully');
         } catch (\Exception $e) {
-            \Log::error('Error updating project', ['error' => $e->getMessage()]);
             return redirect()->back()->withErrors('Error updating project');
         }
     }
-    
-    
-    
+
+
+
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Project $project)
     {
         $title = $project->title;
-    
+
         // Ambil semua gambar yang terkait dengan proyek
         $projectImages = ProjectImage::where('project_id', $project->id)->get();
-    
+
         if ($projectImages->isNotEmpty()) {
             foreach ($projectImages as $image) {
                 Storage::delete('public/' . $image->image_path); // Hapus file dari storage
-                \Log::warning('Deleted project image with path: ' . $image->image_path);
             }
-            
+
             // Hapus semua entri gambar terkait dari database
             ProjectImage::where('project_id', $project->id)->delete();
-        } else {
-            \Log::warning('No images found for project ID: ' . $project->id);
         }
-    
+
         // Hapus proyek dari database
         $project->delete();
-    
+
         return redirect()->route('project.index')->with('successDelete', "Project \"$title\" was deleted");
     }
 }

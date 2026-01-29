@@ -24,7 +24,7 @@ class StoreCertificateRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'certificate_image' => 'required',
-            'certificate_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:4096', 
+            'certificate_image.*' => 'image|mimes:jpeg,png,jpg,gif|max:20480',
         ];
     }
 }

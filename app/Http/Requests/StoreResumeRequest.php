@@ -22,7 +22,7 @@ class StoreResumeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file|max:4096',
+            'file' => 'required|file|max:20480',
         ];
     }
 }

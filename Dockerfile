@@ -21,7 +21,9 @@ FROM php:8.3-fpm
 # Install system deps + nginx + PHP extensions
 RUN apt-get update && apt-get install -y \
     nginx git unzip libzip-dev libpq-dev libonig-dev curl \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
+    libpng-dev libjpeg-dev libwebp-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip gd \
     && rm -rf /var/lib/apt/lists/*
 
 # 🔴 ROOT LARAVEL STANDAR

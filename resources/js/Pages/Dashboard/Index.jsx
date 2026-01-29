@@ -9,11 +9,11 @@ export default function Dashboard({
     certificate,
     project,
     resume,
+    skill,
     successCreated,
 }) {
     const [showModalResume, setShowModalResume] = useState(false);
     const [selectedResume, setSelectedResume] = useState(null);
-    const modalRef = useRef(null);
     const rightPanelRef = useRef(null);
     const leftPanelRef = useRef(null);
 
@@ -65,11 +65,6 @@ export default function Dashboard({
         setShowModalResume(true);
     };
 
-    const showResume = (resume) => {
-        setSelectedResume(resume);
-        setShowModalResume(true);
-    };
-
     return (
         <AdminLayout user={auth.user}>
             <Head title="Dashboard" />
@@ -89,10 +84,18 @@ export default function Dashboard({
                 </div>
                 <div className="bg-gray-2000 p-6 rounded-lg">
                     <h1 className="lg:text-xl xl:text-2xl xxl:text-3xl font-bold text-white-100">
-                        MY PROJECTT
+                        MY PROJECT
                     </h1>
                     <h1 className="lg:text-xl xl:text-2xl xxl:text-3xl font-bold text-gray-400 mt-4">
                         {project}
+                    </h1>
+                </div>
+                <div className="bg-gray-2000 p-6 rounded-lg">
+                    <h1 className="lg:text-xl xl:text-2xl xxl:text-3xl font-bold text-white-100">
+                        MY SKILL
+                    </h1>
+                    <h1 className="lg:text-xl xl:text-2xl xxl:text-3xl font-bold text-gray-400 mt-4">
+                        {skill}
                     </h1>
                 </div>
             </div>
@@ -107,6 +110,7 @@ export default function Dashboard({
                                 resume
                                     ? route("resume.preview", {
                                           resume: resume.id,
+                                          t: resume.updated_at,
                                       })
                                     : "#"
                             }
