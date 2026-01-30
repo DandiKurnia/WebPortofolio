@@ -76,7 +76,10 @@ export default function Navbar({ resume }) {
                     className="bg-green-1000  font-semibold dark:text-gray-1000 px-2 py-2 rounded-lg transition hover:scale-110 duration-500 hidden md:flex"
                     href={
                         resume
-                            ? route("resume.preview", { resume: resume.id })
+                            ? route("resume.preview", {
+                                  resume: resume.id,
+                                  t: resume.updated_at,
+                              })
                             : "#"
                     }
                     rel="noopener noreferrer"

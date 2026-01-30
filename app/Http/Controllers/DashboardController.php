@@ -8,6 +8,7 @@ use App\Models\Resume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\ContactFormMail;
 use App\Http\Requests\StoreResumeRequest;
 use App\Http\Requests\UpdateResumeRequest;
@@ -68,6 +69,9 @@ class DashboardController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('file')) {
+            if ($resume->file) {
+                Storage::disk('public')->delete($resume->file);
+            }
             $data['file'] = $request->file('file')->store('resumes', 'public');
         }
 
