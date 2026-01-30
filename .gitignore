@@ -22,4 +22,4 @@ Dockerfile
 docker-compose.yml
 /storage/*
 /public/*
-/backupdatabase/*
+/backupdatabase/*/public/storage
