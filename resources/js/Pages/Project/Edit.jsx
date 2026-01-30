@@ -8,6 +8,7 @@ import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import imageCompression from "browser-image-compression";
 
 export default function Edit({ auth, project }) {
     const { data, post, setData, processing, errors } = useForm({
@@ -24,23 +25,47 @@ export default function Edit({ auth, project }) {
     const technologies = data.technologies;
 
     const [previewImages, setPreviewImages] = useState(
-        project.images.map((img) => img.image_path) || []
+        project.images.map((img) => img.image_path) || [],
     );
 
     const [newTech, setNewTech] = useState("");
+    const [compressing, setCompressing] = useState(false);
 
     // Handle file drop
     const onDrop = useCallback(
-        (acceptedFiles) => {
-            // console.log("Dropped files:", acceptedFiles);
-            setData((prevData) => ({
-                ...prevData,
-                newImages: [...prevData.newImages, ...acceptedFiles],
-            }));
+        async (acceptedFiles) => {
+            setCompressing(true);
+            try {
+                const compressedFiles = await Promise.all(
+                    acceptedFiles.map(async (file) => {
+                        try {
+                            const compressedFile = await imageCompression(
+                                file,
+                                {
+                                    maxSizeMB: 1,
+                                    maxWidthOrHeight: 1920,
+                                    useWebWorker: true,
+                                },
+                            );
+                            return compressedFile;
+                        } catch (error) {
+                            console.error("Error compressing image:", error);
+                            return file;
+                        }
+                    }),
+                );
 
-            previewFiles(acceptedFiles);
+                setData((prevData) => ({
+                    ...prevData,
+                    newImages: [...prevData.newImages, ...compressedFiles],
+                }));
+
+                previewFiles(compressedFiles);
+            } finally {
+                setCompressing(false);
+            }
         },
-        [data.newImages]
+        [data.newImages],
     );
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -73,7 +98,7 @@ export default function Edit({ auth, project }) {
 
         setData(
             "newImages",
-            data.newImages.filter((_, i) => i !== index)
+            data.newImages.filter((_, i) => i !== index),
         );
     };
 
@@ -324,11 +349,11 @@ export default function Edit({ auth, project }) {
                     <div className="mt-4 grid grid-cols-3 gap-4 mb-4">
                         {previewImages.map((src, index) => {
                             const isExistingImage = project.images.some(
-                                (img) => img.image_path === src
+                                (img) => img.image_path === src,
                             );
                             const imageId = isExistingImage
                                 ? project.images.find(
-                                      (img) => img.image_path === src
+                                      (img) => img.image_path === src,
                                   ).id
                                 : null;
 
@@ -344,7 +369,7 @@ export default function Edit({ auth, project }) {
                                             isExistingImage
                                                 ? handleRemoveExistingImage(
                                                       index,
-                                                      imageId
+                                                      imageId,
                                                   )
                                                 : handleRemoveImage(index)
                                         }
@@ -375,9 +400,9 @@ export default function Edit({ auth, project }) {
                         <button
                             type="submit"
                             className="font-bold py-2 px-2 rounded-md md:rounded-lg bg-green-1000 text-gray-2000 flex items-center gap-2"
-                            disabled={processing}
+                            disabled={processing || compressing}
                         >
-                            {processing && (
+                            {(processing || compressing) && (
                                 <svg
                                     className="h-5 w-5 animate-spin text-white-100"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -400,7 +425,11 @@ export default function Edit({ auth, project }) {
                                 </svg>
                             )}
 
-                            {processing ? "Processing..." : "Submit"}
+                            {compressing
+                                ? "Compressing..."
+                                : processing
+                                  ? "Processing..."
+                                  : "Submit"}
                         </button>
                     </div>
                     {/* End Button */}

@@ -103,15 +103,9 @@ class SkillController extends Controller
             $webpPath = "{$dir}/{$nameImage}.webp";
             Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
 
-            $thumb = Image::read($file->getRealPath())->scaleDown(width: 500);
-            $thumbPath = "{$dir}/{$nameImage}_thumb.webp";
-            Storage::disk('public')->put($thumbPath, (string) $thumb->toWebp(75));
-
             $data['image'] = $webpPath;
-            $data['thumb'] = $thumbPath;
         } else {
             $data['image'] = $skill->image;
-            $data['thumb'] = $skill->thumb;
         }
 
         $skill->update($data);
@@ -127,12 +121,11 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         $title = $skill->title;
-
+        $skill->delete();
         if ($skill->image) {
-            Storage::disk('public')->delete($skill->image);
+            Storage::disk('public')->deleteDirectory(dirname($skill->image));
         }
 
-        $skill->delete();
 
         return to_route('skill.index')->with([
             'successDelete' => "Skill {$title} was deleted!"

@@ -52,9 +52,12 @@ export default function NavbarDashboard({
                         <HiOutlineMenuAlt1 className="hover:text-green-1000" />
                     )}
                 </button>
-                <div className="text-xl md:text-3xl lg:text-4xl font-bold">
+                <a
+                    href="/"
+                    className="text-xl md:text-3xl lg:text-4xl font-bold"
+                >
                     DanBilDad
-                </div>
+                </a>
                 <TextInput
                     id="name"
                     type="text"

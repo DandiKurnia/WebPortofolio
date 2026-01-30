@@ -8,29 +8,53 @@ import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import imageCompression from "browser-image-compression";
 
 export default function Create({ auth }) {
     const { data, post, setData, processing, errors } = useForm({
-        // title: "",
-        // description: "",
-        // link: "",
         technologies: [], // Default empty array
         images: [],
     });
 
     const [previewImages, setPreviewImages] = useState([]);
     const [newTech, setNewTech] = useState("");
+    const [compressing, setCompressing] = useState(false);
 
     // Handle file drop
     const onDrop = useCallback(
-        (acceptedFiles) => {
-            setData((prevData) => ({
-                ...prevData,
-                images: [...prevData.images, ...acceptedFiles],
-            }));
-            previewFiles(acceptedFiles);
+        async (acceptedFiles) => {
+            setCompressing(true);
+
+            try {
+                const compressedFiles = await Promise.all(
+                    acceptedFiles.map(async (file) => {
+                        try {
+                            const compressedFile = await imageCompression(
+                                file,
+                                {
+                                    maxSizeMB: 1,
+                                    maxWidthOrHeight: 1920,
+                                    useWebWorker: true,
+                                },
+                            );
+                            return compressedFile;
+                        } catch (error) {
+                            console.error("Error compressing image:", error);
+                            return file;
+                        }
+                    }),
+                );
+
+                setData((prevData) => ({
+                    ...prevData,
+                    images: [...prevData.images, ...compressedFiles],
+                }));
+                previewFiles(acceptedFiles);
+            } finally {
+                setCompressing(false);
+            }
         },
-        [data.images]
+        [data.images],
     );
 
     // Handle file remove
@@ -38,7 +62,7 @@ export default function Create({ auth }) {
         // console.log("Before removing image:", data.images);
 
         setPreviewImages((prevImages) =>
-            prevImages.filter((_, i) => i !== index)
+            prevImages.filter((_, i) => i !== index),
         );
 
         setData((prevData) => {
@@ -334,9 +358,9 @@ export default function Create({ auth }) {
                         <button
                             type="submit"
                             className="font-bold py-2 px-2 rounded-md md:rounded-lg bg-green-1000 text-gray-2000 flex items-center gap-2"
-                            disabled={processing}
+                            disabled={processing || compressing}
                         >
-                            {processing && (
+                            {(processing || compressing) && (
                                 <svg
                                     className="h-5 w-5 animate-spin text-white-100"
                                     xmlns="http://www.w3.org/2000/svg"
@@ -359,7 +383,11 @@ export default function Create({ auth }) {
                                 </svg>
                             )}
 
-                            {processing ? "Processing..." : "Submit"}
+                            {compressing
+                                ? "Compressing..."
+                                : processing
+                                  ? "Processing..."
+                                  : "Submit"}
                         </button>
                     </div>
                     {/* End button */}

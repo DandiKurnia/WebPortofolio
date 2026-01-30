@@ -2,20 +2,20 @@ import NavbarDashboard from "@/Components/NavbarDashboard";
 import Sidebar from "@/Components/Sidebar";
 import { useEffect, useState } from "react";
 
-export default function AdminLayout({ user, header, children }) {
+export default function AdminLayout({ user, children }) {
     const [showSidebar, setShowSidebar] = useState(
-        localStorage.getItem("showSidebar") === "false" ? false : true
+        localStorage.getItem("showSidebar") === "false" ? false : true,
     );
 
     useEffect(() => {
         localStorage.setItem("showSidebar", showSidebar);
         if (showSidebar) {
             document.body.classList.add(
-                ...["overflow-hidden", "md:overflow-auto"]
+                ...["overflow-hidden", "md:overflow-auto"],
             );
         } else {
             document.body.classList.remove(
-                ...["overflow-hidden", "md:overflow-auto"]
+                ...["overflow-hidden", "md:overflow-auto"],
             );
         }
         return () => document.body.classList.remove("overflow-hidden");

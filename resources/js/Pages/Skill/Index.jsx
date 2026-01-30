@@ -95,20 +95,20 @@ export default function Index({
         setSelectedSkill(null);
     };
 
-    const openEditModal = (certificate) => {
+    const openEditModal = (skill) => {
         // console.log("Certificate yang dikirim ke modal:", certificate);
-        setSelectedSkill(certificate); // Isi dengan data sertifikat
+        setSelectedSkill(skill); // Isi dengan data sertifikat
         setShowModalSkill(true);
     };
 
     // deleteCertificate
-    const deleteCertificate = (certificate) => {
+    const deleteCertificate = (skill) => {
         if (
             !window.confirm("Are you sure you want to delete the certificate?")
         ) {
             return;
         }
-        router.delete(route("certificate.destroy", certificate.id));
+        router.delete(route("skill.destroy", skill.id));
     };
     return (
         <AdminLayout user={auth.user}>

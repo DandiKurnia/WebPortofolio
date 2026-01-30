@@ -21,4 +21,5 @@ yarn-error.log
 Dockerfile
 docker-compose.yml
 /storage/*
+/public/*
 /backupdatabase/*

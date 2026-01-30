@@ -15,7 +15,7 @@ class LandingPageConroller extends Controller
 {
     public function home()
     {
-        $project = Project::paginate(2);
+        $project = Project::orderBy('created_at', 'asc')->paginate(2);
         $certificate = Certificate::all();
         $resume = Resume::latest()->first();
         $skill = Skill::all();

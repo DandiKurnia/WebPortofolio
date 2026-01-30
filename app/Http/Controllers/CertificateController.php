@@ -18,7 +18,7 @@ class CertificateController extends Controller
      */
     public function index()
     {
-        $certificates = Certificate::paginate(10)->onEachSide(1);
+        $certificates = Certificate::orderBy('id', 'desc')->paginate(10)->onEachSide(1);
         return inertia('Certificate/Index', [
             "certificates" => CertificateResource::collection($certificates),
             "successCreated" => session("successCreated"),
@@ -118,15 +118,9 @@ class CertificateController extends Controller
             $webpPath = "{$dir}/{$name}.webp";
             Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
 
-            $thumb = Image::read($file->getRealPath())->scaleDown(width: 500);
-            $thumbPath = "{$dir}/{$name}_thumb.webp";
-            Storage::disk('public')->put($thumbPath, (string) $thumb->toWebp(75));
-
             $data['certificate_image'] = $webpPath;
-            $data['certificate_thumb'] = $thumbPath;
         } else {
             $data['certificate_image'] = $certificate->certificate_image;
-            $data['certificate_thumb'] = $certificate->certificate_thumb;
         }
 
         $certificate->update($data);

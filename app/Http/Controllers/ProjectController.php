@@ -19,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(10)->onEachSide(1);
+        $projects = Project::orderBy('id', 'desc')->paginate(10)->onEachSide(1);
         return inertia("Project/Index", [
             "projects" => ProjectResource::collection($projects),
             "success" => session("successCreated"),

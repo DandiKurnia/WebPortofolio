@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import imageCompression from "browser-image-compression";
 
 export default function ModalSkill({ onClose, skill = null }) {
     const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ export default function ModalSkill({ onClose, skill = null }) {
     const [errors, setErrors] = useState({});
     const [processing, setProcessing] = useState(false);
     const [previewImages, setPreviewImage] = useState([]);
+    const [compressing, setCompressing] = useState(false);
 
     useEffect(() => {
         if (skill) {
@@ -37,14 +39,32 @@ export default function ModalSkill({ onClose, skill = null }) {
         }
     }, [skill]);
 
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback(async (acceptedFiles) => {
         if (acceptedFiles.length > 0) {
             const file = acceptedFiles[0];
-            setFormData((prev) => ({
-                ...prev,
-                newImage: file,
-            }));
-            setPreviewImage([URL.createObjectURL(file)]);
+            setCompressing(true);
+            try {
+                const compressedFile = await imageCompression(file, {
+                    maxSizeMB: 1,
+                    maxWidthOrHeight: 1920,
+                    useWebWorker: true,
+                });
+                setFormData((prev) => ({
+                    ...prev,
+                    newImage: compressedFile,
+                }));
+                setPreviewImage([URL.createObjectURL(compressedFile)]);
+            } catch (error) {
+                console.log(error);
+                setErrors((prev) => ({
+                    ...prev,
+                    image: "Failed to compress image",
+                    newImage: file,
+                }));
+                setPreviewImage([URL.createObjectURL(file)]);
+            } finally {
+                setCompressing(false);
+            }
         }
     }, []);
 
@@ -73,7 +93,7 @@ export default function ModalSkill({ onClose, skill = null }) {
             submitFormData.append("title", formData.title.trim());
             submitFormData.append("description", formData.description.trim());
 
-            if (formData.newImage instanceof File) {
+            if (formData.newImage instanceof Blob) {
                 submitFormData.append("image", formData.newImage);
             }
 
@@ -257,9 +277,9 @@ export default function ModalSkill({ onClose, skill = null }) {
                             <button
                                 type="submit"
                                 className="font-bold py-2 px-2 rounded-md md:rounded-lg bg-green-1000 text-gray-2000 flex items-center gap-2"
-                                disabled={processing}
+                                disabled={processing || compressing}
                             >
-                                {processing && (
+                                {(processing || compressing) && (
                                     <svg
                                         className="h-5 w-5 animate-spin text-white-100"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +301,11 @@ export default function ModalSkill({ onClose, skill = null }) {
                                         ></path>
                                     </svg>
                                 )}
-                                {processing ? "Processing..." : "Submit"}
+                                {compressing
+                                    ? "Compressing..."
+                                    : processing
+                                      ? "Processing..."
+                                      : "Submit"}
                             </button>
                         </div>
                     </form>

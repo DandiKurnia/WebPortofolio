@@ -6,6 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import { useDropzone } from "react-dropzone";
 import { router } from "@inertiajs/react";
 import InputError from "@/Components/InputError";
+import imageCompression from "browser-image-compression";
 
 export default function ModalCertif({ onClose, certificate = null }) {
     const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ export default function ModalCertif({ onClose, certificate = null }) {
     const [errors, setErrors] = useState({});
     const [processing, setProcessing] = useState(false);
     const [previewImages, setPreviewImages] = useState([]);
+    const [compressing, setCompressing] = useState(false);
 
     useEffect(() => {
         if (certificate) {
@@ -33,15 +35,37 @@ export default function ModalCertif({ onClose, certificate = null }) {
         }
     }, [certificate]);
 
-    const onDrop = useCallback((acceptedFiles) => {
+    const onDrop = useCallback(async (acceptedFiles) => {
         if (acceptedFiles.length > 0) {
             const file = acceptedFiles[0];
-            setFormData((prev) => ({
-                ...prev,
-                // Simpan file baru di newcertificate_image
-                newcertificate_image: file,
-            }));
-            setPreviewImages([URL.createObjectURL(file)]);
+
+            // Compress image before storing
+            setCompressing(true);
+            try {
+                const options = {
+                    maxSizeMB: 1, // Max 1MB after compression
+                    maxWidthOrHeight: 1920, // Max dimension 1920px
+                    useWebWorker: true,
+                };
+
+                const compressedFile = await imageCompression(file, options);
+
+                setFormData((prev) => ({
+                    ...prev,
+                    newcertificate_image: compressedFile,
+                }));
+                setPreviewImages([URL.createObjectURL(compressedFile)]);
+            } catch (error) {
+                console.error("Error compressing image:", error);
+                // Fallback to original file if compression fails
+                setFormData((prev) => ({
+                    ...prev,
+                    newcertificate_image: file,
+                }));
+                setPreviewImages([URL.createObjectURL(file)]);
+            } finally {
+                setCompressing(false);
+            }
         }
     }, []);
 
@@ -70,7 +94,7 @@ export default function ModalCertif({ onClose, certificate = null }) {
             submitFormData.append("title", formData.title.trim());
 
             // Jika ada file baru, kirim sebagai certificate_image
-            if (formData.newcertificate_image instanceof File) {
+            if (formData.newcertificate_image instanceof Blob) {
                 submitFormData.append(
                     "certificate_image",
                     formData.newcertificate_image,
@@ -235,9 +259,9 @@ export default function ModalCertif({ onClose, certificate = null }) {
                             <button
                                 type="submit"
                                 className="font-bold py-2 px-2 rounded-md md:rounded-lg bg-green-1000 text-gray-2000 flex items-center gap-2"
-                                disabled={processing}
+                                disabled={processing || compressing}
                             >
-                                {processing && (
+                                {(processing || compressing) && (
                                     <svg
                                         className="h-5 w-5 animate-spin text-white-100"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -259,7 +283,11 @@ export default function ModalCertif({ onClose, certificate = null }) {
                                         ></path>
                                     </svg>
                                 )}
-                                {processing ? "Processing..." : "Submit"}
+                                {compressing
+                                    ? "Compressing..."
+                                    : processing
+                                      ? "Processing..."
+                                      : "Submit"}
                             </button>
                         </div>
                     </form>
