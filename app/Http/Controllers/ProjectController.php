@@ -167,6 +167,6 @@ class ProjectController extends Controller
         // Hapus proyek dari database
         $project->delete();
 
-        return redirect()->route('project.index')->with('successDelete', "Project \"$title\" was deleted");
+        return back()->with('successDelete', "Project \"$title\" was deleted");
     }
 }

@@ -125,7 +125,7 @@ class CertificateController extends Controller
 
         $certificate->update($data);
 
-        return redirect()->route('certificate.index')->with('successEdit', 'Project was edited!');
+        return back()->with('successEdit', 'Project was edited!');
     }
 
 
@@ -140,7 +140,6 @@ class CertificateController extends Controller
         if ($certificate->image_path) {
             certificate::disk('public')->deleteDirectory(dirname($certificate->certificate_image));
         }
-        return to_route('certificate.index')
-            ->with('successDelete', "Project \"$title\" was delete");
+        return back()->with('successDelete', "Project \"$title\" was delete");
     }
 }

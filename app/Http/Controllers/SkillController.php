@@ -59,7 +59,7 @@ class SkillController extends Controller
 
         Skill::create($data);
 
-        return to_route('skill.index')->with([
+        return back()->with([
             'successCreated' => 'Skill was created!'
         ]);
     }
@@ -85,12 +85,11 @@ class SkillController extends Controller
      */
     public function update(UpdateSkillRequest $request, Skill $skill)
     {
-        $data['title'] = $request->title;
-        $data['description'] = $request->description;
+        $data = $request->validated();
 
         if ($request->hasFile('image')) {
-            if ($request->image) {
-                Storage::disk('public')->delete($request->image);
+            if ($skill->image) {
+                Storage::disk('public')->delete($skill->image);
             }
 
             $file = $request->file('image');
@@ -104,13 +103,11 @@ class SkillController extends Controller
             Storage::disk('public')->put($webpPath, (string) $img->toWebp(80));
 
             $data['image'] = $webpPath;
-        } else {
-            $data['image'] = $skill->image;
         }
 
         $skill->update($data);
 
-        return to_route('skill.index')->with([
+        return back()->with([
             'successEdit' => 'Skill was edited!'
         ]);
     }
@@ -121,13 +118,14 @@ class SkillController extends Controller
     public function destroy(Skill $skill)
     {
         $title = $skill->title;
+        $image = $skill->image;
         $skill->delete();
-        if ($skill->image) {
-            Storage::disk('public')->deleteDirectory(dirname($skill->image));
+
+        if ($image) {
+            Storage::disk('public')->delete($image);
         }
 
-
-        return to_route('skill.index')->with([
+        return back()->with([
             'successDelete' => "Skill {$title} was deleted!"
         ]);
     }
