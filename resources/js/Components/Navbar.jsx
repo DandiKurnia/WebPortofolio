@@ -127,10 +127,15 @@ export default function Navbar({ resume }) {
                     ))}
                     <a
                         className="relative font-bold hover:text-green-1000 group"
-                        href="/assets/documents/resume.pdf"
-                        target="_blank"
+                        href={
+                            resume
+                                ? route("resume.preview", {
+                                      resume: resume.id,
+                                      t: resume.updated_at,
+                                  })
+                                : "#"
+                        }
                         rel="noopener noreferrer"
-                        download="resume.pdf"
                     >
                         Download CV
                         <span className="absolute left-[-0.7rem] top-0 h-full w-[2px] bg-green-1000 scale-y-0 group-hover:scale-y-100 transition-transform origin-top duration-500"></span>
